@@ -5,9 +5,7 @@ public interface IInputController {
 
     void initialize();
     
-
     void processInput();
-
 
     boolean isKeyPressed(int keyCode);
 

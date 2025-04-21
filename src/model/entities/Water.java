@@ -1,6 +1,6 @@
 package model.entities;
 
-import model.base.EntityBase;
+import model.base.StationaryEntityBase;
 import model.interfaces.ICollidable;
 import model.interfaces.IEntity;
 
@@ -10,6 +10,6 @@ import java.awt.image.BufferedImage;
 /**
  * Water entity - slows down player movement
  */
-public class Water extends EntityBase implements ICollidable {
+public class Water extends StationaryEntityBase implements ICollidable {
 
 }
