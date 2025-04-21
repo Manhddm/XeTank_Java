@@ -1,5 +1,5 @@
 package model.entities;
-import model.base.MovableEntityBase;
+import model.base.StationaryEntityBase;
 
 
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * Player entity representing a tank in the game
  */
-public class Player extends MovableEntityBase {
+public class Player extends StationaryEntityBase {
 
     @Override
     public void move() {
