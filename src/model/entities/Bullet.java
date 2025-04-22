@@ -8,11 +8,6 @@ import model.base.MovableEntityBase;
 public class Bullet extends MovableEntityBase {
 
     @Override
-    protected void initHitBox() {
-
-    }
-
-    @Override
     public void move() {
 
     }

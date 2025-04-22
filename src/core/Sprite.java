@@ -67,6 +67,30 @@ public class Sprite {
         g.dispose();
         return img;
     }
+
+    public BufferedImage getTank(Color color) {
+        return color == Color.BLUE  ? blueTank : redTank;
+    }
+
+    public BufferedImage getBullet() {
+        return bullet;
+    }
+
+    public BufferedImage getGrass() {
+        return grassImage;
+    }
+
+    public BufferedImage getWall() {
+        return wallImage;
+    }
+
+    public BufferedImage getWater() {
+        return waterImage;
+    }
+
+    public BufferedImage getFloor() {
+        return floorImage;
+    }
     
 }
 

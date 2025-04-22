@@ -12,10 +12,11 @@ import java.awt.image.BufferedImage;
  */
 public class Wall extends EntityBase implements ICollidable {
 
-
-    @Override
-    protected void initHitBox() {
-
+    public Wall(int x, int y, BufferedImage image) {
+        this.image = image;
+        this.x = x;
+        this.y = y;
+        this.bounds = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight()); 
     }
 
     @Override

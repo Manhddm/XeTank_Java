@@ -16,6 +16,7 @@ public class Player extends MovableEntityBase {
         this.name = name;
         this.x = x;
         this.y = y;
+        this.bounds = new Rectangle((int)x,(int)y,10,10);
         this.health = maxHealth;
     }
 
@@ -66,10 +67,6 @@ public class Player extends MovableEntityBase {
 
     }
 
-    @Override
-    protected void initHitBox() {
-        this.bounds = new Rectangle((int)x,(int)y,10,10);
-    }
 
     @Override
     public float getX() {

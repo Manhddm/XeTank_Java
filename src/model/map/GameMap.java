@@ -1,6 +1,7 @@
 package model.map;
 
 import core.GameConstants;
+import core.Sprite;
 import model.entities.Grass;
 import model.entities.Wall;
 import model.entities.Water;
@@ -36,7 +37,7 @@ public class GameMap {
 
             int col = 0;
             int row = 0;
-
+            
             while(col < GameConstants.MAX_SCREEN_COL && row < GameConstants.MAX_SCREEN_ROW) {
 
                 String line = br.readLine();
