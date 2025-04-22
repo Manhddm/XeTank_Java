@@ -14,4 +14,23 @@ import java.awt.image.BufferedImage;
  */
 public class ItemEntity extends EntityBase implements ICollidable {
 
+    @Override
+    protected void initHitBox() {
+
+    }
+
+    @Override
+    public boolean collidesWith(IEntity other) {
+        return false;
+    }
+
+    @Override
+    public void handleCollision(IEntity other) {
+
+    }
+
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
 }

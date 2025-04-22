@@ -1,6 +1,5 @@
 package view.renderers;
 
-import graphics.Sprite;
 import model.entities.Bullet;
 import model.interfaces.IEntity;
 import view.interfaces.IRenderer;
@@ -13,4 +12,19 @@ import java.awt.image.BufferedImage;
  */
 public class BulletRenderer implements IRenderer {
 
+    @Override
+    public void render(Graphics g, IEntity entity) {
+
+    }
+
+
+    @Override
+    public void renderUI(Graphics g) {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
 }

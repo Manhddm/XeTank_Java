@@ -2,11 +2,14 @@ package controller;
 
 
 import controller.interfaces.IGameController;
+import model.entities.Player;
 import model.interfaces.IGameModel;
 import view.interfaces.IGameView;
 
 
 public class GameController implements IGameController {
+    private KeyboardController keyboardController;
+    private Player player;
 
     @Override
     public void initialize() {
