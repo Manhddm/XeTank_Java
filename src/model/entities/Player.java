@@ -12,11 +12,13 @@ public class Player extends MovableEntityBase {
     private final static int maxHealth = 100;
     private int damage;
     private String name;
-    public Player(String name, float x, float y) {
+
+    public Player(String name, float x, float y, float speed ) {
         this.name = name;
         this.x = x;
         this.y = y;
         this.health = maxHealth;
+        this.speed = speed;
     }
 
     public int getDamage() {
@@ -68,7 +70,7 @@ public class Player extends MovableEntityBase {
 
     @Override
     protected void initHitBox() {
-        this.bounds = new Rectangle((int)x,(int)y,64,64);
+        this.hitBox = new Rectangle((int)x,(int)y,64,64);
     }
 
     @Override
@@ -93,7 +95,7 @@ public class Player extends MovableEntityBase {
 
     @Override
     public Rectangle getHitBox() {
-        return bounds != null ? bounds.getBounds() : new Rectangle((int)x, (int)y, 64, 64);
+        return hitBox != null ? hitBox.getBounds() : new Rectangle((int)x, (int)y, 64, 64);
     }
 
     @Override
