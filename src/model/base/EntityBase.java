@@ -39,7 +39,9 @@ public abstract class EntityBase implements IEntity {
 
     @Override
     public void draw(Graphics g) {
-
+        if (image != null) {
+            g.drawImage(image, (int) x, (int) y, null);
+        }
     }
 
     @Override

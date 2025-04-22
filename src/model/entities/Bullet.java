@@ -1,12 +1,39 @@
 package model.entities;
 
-import core.GameConstants;
-import graphics.Sprite;
-import model.base.StationaryEntityBase;
+import model.base.MovableEntityBase;
 
 /**
  * Bullet entity - fired by players
  */
-public class Bullet extends StationaryEntityBase {
+public class Bullet extends MovableEntityBase {
 
+    @Override
+    protected void initHitBox() {
+
+    }
+
+    @Override
+    public void move() {
+
+    }
+
+    @Override
+    public void undoMove() {
+
+    }
+
+    @Override
+    public float getSpeed() {
+        return 0;
+    }
+
+    @Override
+    public void setSpeed(float speed) {
+
+    }
+
+    @Override
+    public void storePreviousPosition() {
+
+    }
 }

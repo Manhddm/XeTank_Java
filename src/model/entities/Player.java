@@ -1,5 +1,5 @@
 package model.entities;
-import model.base.StationaryEntityBase;
+import model.base.MovableEntityBase;
 
 
 import java.awt.*;
@@ -7,16 +7,48 @@ import java.awt.*;
 /**
  * Player entity representing a tank in the game
  */
-public class Player extends StationaryEntityBase {
+public class Player extends MovableEntityBase {
+    private int health;
+    private final static int maxHealth = 100;
+    private int damage;
+    private String name;
+    public Player(String name, float x, float y) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.health = maxHealth;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public void move() {
-
     }
 
     @Override
     public void undoMove() {
-
     }
 
     @Override
@@ -32,6 +64,11 @@ public class Player extends StationaryEntityBase {
     @Override
     public void storePreviousPosition() {
 
+    }
+
+    @Override
+    protected void initHitBox() {
+        this.bounds = new Rectangle((int)x,(int)y,10,10);
     }
 
     @Override
@@ -56,7 +93,7 @@ public class Player extends StationaryEntityBase {
 
     @Override
     public Rectangle getHitBox() {
-        return null;
+        return bounds;
     }
 
     @Override
