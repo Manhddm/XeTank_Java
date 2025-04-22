@@ -10,13 +10,8 @@ public interface IInputController {
     boolean isKeyPressed(int keyCode);
 
     int getPlayerMovementDirection(int playerIndex);
-    
-
-    int getPlayerRotationDirection(int playerIndex);
-    
 
     boolean isPlayerShooting(int playerIndex);
-    
 
     boolean isPlayerAction(int playerIndex);
 

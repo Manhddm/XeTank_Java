@@ -67,30 +67,29 @@ public class Player extends MovableEntityBase {
 
     }
 
-
     @Override
     public float getX() {
-        return 0;
+        return super.getX();
     }
 
     @Override
     public float getY() {
-        return 0;
+        return super.getY();
     }
 
     @Override
     public void setX(float x) {
-
+        super.setX(x);
     }
 
     @Override
     public void setY(float y) {
-
+        super.setY(y);
     }
 
     @Override
     public Rectangle getHitBox() {
-        return bounds;
+        return bounds != null ? bounds.getBounds() : new Rectangle((int)x, (int)y, 64, 64);
     }
 
     @Override

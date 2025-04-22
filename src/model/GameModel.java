@@ -9,6 +9,7 @@ import view.renderers.PlayerRenderer;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -22,33 +23,44 @@ import java.util.stream.Collectors;
 public class GameModel implements IGameModel {
     Player player1;
     Player player2;
+    List<IEntity> allEntities = new ArrayList<>() ;
     //Cho khoi tao
     @Override
     public void initialize() {
+
         player1 = new Player("Blue",100,100);
         player2 = new Player("Red",500,500);
         BufferedImage image ;
-        URL imageURL = GameModel.class.getResource("/res/player/BlueTank.png");
-        if (imageURL != null) {
+
+        //System.out.println(imageURL);
+        //if (imageURL != null) {
             try {
-                image = ImageIO.read(imageURL);
+                image = ImageIO.read(new File("D:/java/XeTank_Java/res/player/BlueTank.png"));
                 player1.setImage(image);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        imageURL = GameModel.class.getResource("/res/player/RedTank.png");
-        if (imageURL != null) {
+//        }
+//        else {
+//            System.out.println("Khong doc duoc anh");
+//        }
+//        imageURL = GameModel.class.getResource("XeTank_Java/res/player/RedTank.png");
+//        if (imageURL != null) {
             try {
-                image = ImageIO.read(imageURL);
+                image = ImageIO.read(new File("D:/java/XeTank_Java/res/player/RedTank.png"));
                 player2.setImage(image);
             } catch (IOException e) {}
-        }
+//        }
+        addEntity(player1);
+        addEntity(player2);
     }
 
     @Override
     public void update() {
-
+        List<IEntity> entitiesToUpdate = new ArrayList<>(allEntities); // Tạo bản sao để tránh ConcurrentModificationException
+        for (IEntity entity : entitiesToUpdate) {
+            entity.update();
+        }
     }
 
     @Override
@@ -60,13 +72,16 @@ public class GameModel implements IGameModel {
             return player2;
         }
     }
-
+    private <T extends IEntity> void addEntity(T entity) {
+        allEntities.add(entity);
+    }
+    private <T extends IEntity> void removeEntity(T entity) {
+        allEntities.remove(entity);
+    }
     @Override
     public List<? extends IEntity> getAllEntities() {
-        List<IEntity> all = new ArrayList<>();
-        if (player1 != null) all.addAll((Collection<? extends IEntity>) player1);
-        // Thêm các loại entity khác vào list 'all'
-        return all;
+
+        return new ArrayList<>(allEntities);
     }
 
     @Override
@@ -86,6 +101,7 @@ public class GameModel implements IGameModel {
 
     @Override
     public void reset() {
-
+        allEntities.clear();
+        initialize();
     }
 }
