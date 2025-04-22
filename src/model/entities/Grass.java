@@ -10,25 +10,24 @@ import java.awt.image.BufferedImage;
 
 public class Grass extends EntityBase implements ICollidable {
 
+
+    @Override
+    protected void initHitBox() {
+
+    }
+
     @Override
     public boolean collidesWith(IEntity other) {
-        return this.getHitBox().intersects(other.getHitBox());
+        return false;
     }
 
     @Override
     public void handleCollision(IEntity other) {
-        
+
     }
 
     @Override
     public boolean isSolid() {
         return false;
     }
-
-    @Override
-    protected void initHitBox() {
-        this.bounds = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
-    }
-    
-
 }

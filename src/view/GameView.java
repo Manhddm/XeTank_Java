@@ -19,4 +19,33 @@ import java.util.Map;
  */
 public class GameView extends JPanel implements IGameView {
 
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void setModel(IGameModel model) {
+
+    }
+
+    @Override
+    public void render(Graphics g) {
+
+    }
+
+    @Override
+    public void showGameOverScreen(int winnerIndex) {
+
+    }
+
+    @Override
+    public void showMainMenu() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
 }

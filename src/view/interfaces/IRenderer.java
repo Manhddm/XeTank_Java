@@ -14,7 +14,7 @@ public interface IRenderer {
      * @param entity Entity to render
      */
     void render(Graphics g, IEntity entity);
-    
+
     /**
      * Render UI elements (health bars, scores, etc.)
      * @param g Graphics context

@@ -22,6 +22,14 @@ public abstract class EntityBase implements IEntity {
         return this.y;
     }
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
     @Override
     public void setX(float x) {
         this.x = x;
@@ -39,7 +47,9 @@ public abstract class EntityBase implements IEntity {
 
     @Override
     public void draw(Graphics g) {
-
+        if (image != null) {
+            g.drawImage(image, (int) x, (int) y, null);
+        }
     }
 
     @Override
