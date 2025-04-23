@@ -32,7 +32,7 @@ public class GameMap {
 
     public void loadMap() {
         try {
-            InputStream is = new FileInputStream("src/Maps/map.txt");
+            InputStream is = new FileInputStream("map/Maps/map.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
