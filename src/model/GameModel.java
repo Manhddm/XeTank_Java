@@ -143,7 +143,7 @@ public class GameModel implements IGameModel {
     @Override
     public List<? extends IEntity> getAllEntities() {
         // Trả về một bản sao không thể thay đổi hoặc một bản sao mới để bảo vệ danh sách gốc
-        return new ArrayList<>(allEntities);
+        return allEntities;
         // Hoặc return Collections.unmodifiableList(allEntities);
     }
 

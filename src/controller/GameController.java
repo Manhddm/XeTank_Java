@@ -2,10 +2,12 @@ package controller;
 
 import controller.interfaces.IGameController;
 import controller.interfaces.IInputController; // Import IInputController
+import model.GameModel;
 import model.interfaces.IGameModel;
 import model.interfaces.IEntity; // Import IEntity
 import model.interfaces.IMovable; // Import IMovable
 import view.interfaces.IGameView;
+import view.rendering.GamePanel;
 
 import javax.swing.Timer; // Import Timer for game loop
 import java.awt.event.ActionEvent;
@@ -15,6 +17,7 @@ import java.awt.event.ActionListener;
 public class GameController implements IGameController, ActionListener { // Implement ActionListener for Timer
     private IGameModel gameModel;
     private IGameView gameView; // Keep the view reference, even if not fully used yet
+    private GamePanel gamePanel ;
     private IInputController inputController;
     private Timer gameTimer; // Timer for the game loop
     private boolean running = false;
@@ -23,8 +26,11 @@ public class GameController implements IGameController, ActionListener { // Impl
     // Constructor (optional, could do setup in initialize)
     public GameController() {
         // Initialization logic can go here or in initialize()
-    }
 
+    }
+    public void setGamePanel(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
     @Override
     public void initialize() {
         // Initialize the game timer but don't start it yet
@@ -97,6 +103,7 @@ public class GameController implements IGameController, ActionListener { // Impl
     @Override
     public void actionPerformed(ActionEvent e) {
         processTick();
+        gamePanel.repaint();
     }
 
 
@@ -165,18 +172,6 @@ public class GameController implements IGameController, ActionListener { // Impl
 
     // Helper method to handle movement logic based on input
     private void handlePlayerMovement(IMovable player, IInputController input, int playerIndex) {
-        // Example: Get direction from KeyboardController (assuming it provides simple directions)
-        // You'll need to refine KeyboardController.getPlayerMovementDirection
-        // or add methods like isMoveUpPressed(playerIndex), isMoveDownPressed(playerIndex) etc.
-
-        // --- Placeholder movement logic ---
-        // This needs refinement based on how KeyboardController exposes directions.
-        // Let's assume KeyboardController has methods like isUpP1(), isDownP1(), etc.
-        // Or better, get a movement vector/direction enum.
-
-        // --- Simplified Example (assuming direct access or helper methods in KeyboardController) ---
-        // This part NEEDS to be adapted based on your ACTUAL KeyboardController implementation.
-        // For instance, if KeyboardController stores boolean flags like upP1, downP1 etc:
 
         KeyboardController kbController = (KeyboardController) input; // Cast (be careful with this)
 
@@ -199,16 +194,9 @@ public class GameController implements IGameController, ActionListener { // Impl
 
         // Apply movement if there is any change
         if (dx != 0 || dy != 0) {
-            // Store previous position *before* changing coordinates
             player.storePreviousPosition();
-
-            // Update player position (basic example)
-            // More sophisticated movement might involve direction vectors, angles, etc.
             player.setX(player.getX() + dx);
             player.setY(player.getY() + dy);
-
-            // After moving, collision detection should happen (likely in gameModel.update or CollisionController)
-            // If a collision occurs, player.undoMove() might be called.
             System.out.println("Player " + (playerIndex + 1) + " moved to (" + player.getX() + ", " + player.getY() + ")"); // Debug
         }
     }
