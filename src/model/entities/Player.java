@@ -18,7 +18,7 @@ public class Player extends MovableEntityBase {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.bounds = new Rectangle((int)x,(int)y,10,10);
+        this.hitBox = new Rectangle((int)x,(int)y,10,10);
         this.health = maxHealth;
         this.speed = speed;
     }

@@ -16,7 +16,7 @@ public class Wall extends EntityBase implements ICollidable {
         this.image = image;
         this.x = x;
         this.y = y;
-        this.bounds = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight()); 
+        this.hitBox = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
     }
 
     @Override
@@ -32,5 +32,10 @@ public class Wall extends EntityBase implements ICollidable {
     @Override
     public boolean isSolid() {
         return false;
+    }
+
+    @Override
+    protected void initHitBox() {
+
     }
 }

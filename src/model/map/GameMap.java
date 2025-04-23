@@ -2,6 +2,7 @@ package model.map;
 
 import core.GameConstants;
 import core.Sprite;
+import core.Sprites;
 import model.entities.Grass;
 import model.entities.Wall;
 import model.entities.Water;
@@ -20,19 +21,17 @@ public class GameMap {
     ArrayList<Water> waters = new ArrayList<>();
     ArrayList<Grass> grasses = new ArrayList<>();
     private BufferedImage mapImage;
-    private Sprite sprite;
+    private final Sprites sprites = new Sprites();
     
     public GameMap() {
         mapTileNum = new int[GameConstants.MAX_SCREEN_COL][GameConstants.MAX_SCREEN_ROW];
-        sprite = new Sprite();
-
         loadMap();
         drawMapToImage();
     }
 
     public void loadMap() {
         try {
-            InputStream is = new FileInputStream("src/Maps/map.txt");
+            InputStream is = new FileInputStream("src/model/map/map.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
@@ -78,22 +77,22 @@ public class GameMap {
             
             int tileNum = mapTileNum[col][row];
             if(tileNum == 1) {
-                g2.drawImage(sprite.getFloor(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                g2.drawImage(sprite.getWall(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                Wall wall = new Wall(x, y, sprite.getWall());
+                g2.drawImage(sprites.floor, x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                g2.drawImage(sprites.wall, x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                Wall wall = new Wall(x, y, sprites.wall);
                 walls.add(wall);
             } else if(tileNum == 2) {
-                g2.drawImage(sprite.getFloor(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                g2.drawImage(sprite.getWater(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                Water water = new Water(x, y, sprite.getWater());
+                g2.drawImage(sprites.floor, x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                g2.drawImage(sprites.water, x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                Water water = new Water(x, y, sprites.water);
                 waters.add(water);
             } else if(tileNum == 3) {
-                g2.drawImage(sprite.getFloor(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                g2.drawImage(sprite.getGrass(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-                Grass grass = new Grass(x, y, sprite.getGrass());
+                g2.drawImage(sprites.floor, x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                g2.drawImage(sprites.grass, x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                Grass grass = new Grass(x, y, sprites.grass);
                 grasses.add(grass);
             } else {
-                g2.drawImage(sprite.getFloor(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+                g2.drawImage(sprites.floor, x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
             }
             
             col++;

@@ -4,6 +4,7 @@ import core.GameConstants;
 import model.entities.*;
 import model.interfaces.IEntity;
 import model.interfaces.IGameModel;
+import model.map.GameMap;
 // import view.renderers.PlayerRenderer; // Không cần import renderer trong model
 
 import javax.imageio.ImageIO;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class GameModel implements IGameModel {
     Player player1;
     Player player2;
+    GameMap gameMap;
     List<IEntity> allEntities = new ArrayList<>(); // Khởi tạo danh sách ngay lập tức
 
     private float defaultPlayerSpeed = 5.0f; // Tốc độ mặc định cho người chơi
@@ -32,7 +34,7 @@ public class GameModel implements IGameModel {
     public void initialize() {
         System.out.println("Initializing GameModel...");
         allEntities.clear(); // Xóa các thực thể cũ trước khi khởi tạo lại
-
+        gameMap = new GameMap();
         // --- Khởi tạo người chơi ---
         player1 = new Player("Blue", 100, 100, defaultPlayerSpeed); // Vị trí và tốc độ ban đầu P1
         player2 = new Player("Red", GameConstants.GAME_SCREEN_WIDTH - 100 - (GameConstants.TILE_SIZE * 2), // Gần góc phải
