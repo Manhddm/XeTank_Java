@@ -10,7 +10,8 @@ public abstract class EntityBase implements IEntity {
     protected float x;
     protected float y;
     protected BufferedImage image;
-    protected Rectangle bounds;
+    protected Rectangle hitBox;
+    protected abstract void initHitBox();
     @Override
     public float getX() {
         return this.x;
@@ -41,9 +42,13 @@ public abstract class EntityBase implements IEntity {
 
     @Override
     public Rectangle getHitBox() {
-        return bounds.getBounds();
+        return hitBox.getBounds();
     }
-
+    protected void updateHitBox() {
+        if (hitBox != null) {
+            hitBox.setLocation((int)x, (int)y);
+        }
+    }
     @Override
     public void draw(Graphics g) {
         if (image != null) {

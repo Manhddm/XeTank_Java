@@ -134,5 +134,15 @@ public class KeyboardController implements IInputController, KeyListener {
             case KeyEvent.VK_NUMPAD1:shootP2 = false; break;
         }
     }
+    public boolean isUpP1Pressed() { return upP1; }
+    public boolean isDownP1Pressed() { return downP1; }
+    public boolean isLeftP1Pressed() { return leftP1; }
+    public boolean isRightP1Pressed() { return rightP1; }
+    public boolean isShootP1Pressed() { return shootP1; } // Assuming you add shootP1 flag
 
+    public boolean isUpP2Pressed() { return upP2; }
+    public boolean isDownP2Pressed() { return downP2; }
+    public boolean isLeftP2Pressed() { return leftP2; }
+    public boolean isRightP2Pressed() { return rightP2; }
+    public boolean isShootP2Pressed() { return shootP2; }
 }

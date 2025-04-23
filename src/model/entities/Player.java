@@ -3,6 +3,7 @@ import model.base.MovableEntityBase;
 
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Player entity representing a tank in the game
@@ -12,12 +13,14 @@ public class Player extends MovableEntityBase {
     private final static int maxHealth = 100;
     private int damage;
     private String name;
-    public Player(String name, float x, float y) {
+    public boolean faceRight, faceLeft, faceUp, faceDown;
+    public Player(String name, float x, float y, float speed ) {
         this.name = name;
         this.x = x;
         this.y = y;
         this.bounds = new Rectangle((int)x,(int)y,10,10);
         this.health = maxHealth;
+        this.speed = speed;
     }
 
     public int getDamage() {
@@ -45,26 +48,32 @@ public class Player extends MovableEntityBase {
     }
 
     @Override
-    public void move() {
-    }
+    public void move() {}
+
 
     @Override
     public void undoMove() {
+        super.undoMove();
     }
 
     @Override
     public float getSpeed() {
-        return 0;
+        return super.getSpeed();
     }
 
     @Override
     public void setSpeed(float speed) {
-
+        super.setSpeed(speed);
     }
 
     @Override
     public void storePreviousPosition() {
+        super.storePreviousPosition();
+    }
 
+    @Override
+    protected void initHitBox() {
+        this.hitBox = new Rectangle((int)x,(int)y,64,64);
     }
 
     @Override
@@ -89,12 +98,17 @@ public class Player extends MovableEntityBase {
 
     @Override
     public Rectangle getHitBox() {
-        return bounds != null ? bounds.getBounds() : new Rectangle((int)x, (int)y, 64, 64);
+        return hitBox != null ? hitBox.getBounds() : new Rectangle((int)x, (int)y, 64, 64);
     }
 
     @Override
     public void draw(Graphics g) {
 
+    }
+
+    @Override
+    public void setImage(BufferedImage image) {
+        this.image = image;
     }
 
     @Override

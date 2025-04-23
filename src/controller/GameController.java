@@ -2,29 +2,39 @@ package controller;
 
 import controller.interfaces.IGameController;
 import controller.interfaces.IInputController; // Import IInputController
+import core.Sprites;
+import model.GameModel;
 import model.interfaces.IGameModel;
 import model.interfaces.IEntity; // Import IEntity
 import model.interfaces.IMovable; // Import IMovable
 import view.interfaces.IGameView;
+import view.rendering.GamePanel;
 
 import javax.swing.Timer; // Import Timer for game loop
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 
 public class GameController implements IGameController, ActionListener { // Implement ActionListener for Timer
     private IGameModel gameModel;
     private IGameView gameView; // Keep the view reference, even if not fully used yet
+    private GamePanel gamePanel ;
     private IInputController inputController;
+    private Sprites sprites = new Sprites();
     private Timer gameTimer; // Timer for the game loop
     private boolean running = false;
-    private final int GAME_TICK_DELAY = 1000 / 60; // Approx 60 FPS
+    private final int GAME_TICK_DELAY = 1000 / 120; // Approx 60 FPS
 
     // Constructor (optional, could do setup in initialize)
     public GameController() {
         // Initialization logic can go here or in initialize()
-    }
 
+    }
+    public void setGamePanel(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
     @Override
     public void initialize() {
         // Initialize the game timer but don't start it yet
@@ -37,10 +47,7 @@ public class GameController implements IGameController, ActionListener { // Impl
         this.gameModel = model;
     }
 
-    @Override
-    public void setView(IGameView view) {
-        this.gameView = view; // Store the view reference
-    }
+
 
     // Method to set the input controller
     public void setInputController(IInputController inputController) {
@@ -97,6 +104,7 @@ public class GameController implements IGameController, ActionListener { // Impl
     @Override
     public void actionPerformed(ActionEvent e) {
         processTick();
+        gamePanel.repaint();
     }
 
 
@@ -165,51 +173,57 @@ public class GameController implements IGameController, ActionListener { // Impl
 
     // Helper method to handle movement logic based on input
     private void handlePlayerMovement(IMovable player, IInputController input, int playerIndex) {
-        // Example: Get direction from KeyboardController (assuming it provides simple directions)
-        // You'll need to refine KeyboardController.getPlayerMovementDirection
-        // or add methods like isMoveUpPressed(playerIndex), isMoveDownPressed(playerIndex) etc.
-
-        // --- Placeholder movement logic ---
-        // This needs refinement based on how KeyboardController exposes directions.
-        // Let's assume KeyboardController has methods like isUpP1(), isDownP1(), etc.
-        // Or better, get a movement vector/direction enum.
-
-        // --- Simplified Example (assuming direct access or helper methods in KeyboardController) ---
-        // This part NEEDS to be adapted based on your ACTUAL KeyboardController implementation.
-        // For instance, if KeyboardController stores boolean flags like upP1, downP1 etc:
 
         KeyboardController kbController = (KeyboardController) input; // Cast (be careful with this)
 
-        float speed = player.getSpeed() > 0 ? player.getSpeed() : 2.0f; // Default speed if not set
+        float speed = player.getSpeed() > 0 ? player.getSpeed() : 3.0f; // Default speed if not set
         float dx = 0;
         float dy = 0;
 
 
         if (playerIndex == 0) { // Player 1 (WASD)
-            if (kbController.isUpP1Pressed()) dy -= speed;
-            if (kbController.isDownP1Pressed()) dy += speed;
-            if (kbController.isLeftP1Pressed()) dx -= speed;
-            if (kbController.isRightP1Pressed()) dx += speed;
+            if (kbController.isUpP1Pressed()) {
+                dy -= speed;
+                player.setImage(sprites.player1Up);
+            }
+            else if (kbController.isDownP1Pressed()) {
+                dy += speed;
+                player.setImage(sprites.player1Down);
+            }
+            else  if (kbController.isLeftP1Pressed()) {
+                dx -= speed;
+                player.setImage(sprites.player1Left);
+            }
+            else if (kbController.isRightP1Pressed()) {
+                dx += speed;
+                player.setImage(sprites.player1Right);
+            }
         } else if (playerIndex == 1) { // Player 2 (Arrow Keys)
-            if (kbController.isUpP2Pressed()) dy -= speed;
-            if (kbController.isDownP2Pressed()) dy += speed;
-            if (kbController.isLeftP2Pressed()) dx -= speed;
-            if (kbController.isRightP2Pressed()) dx += speed;
+            if (kbController.isUpP2Pressed()) {
+                dy -= speed;
+                player.setImage(sprites.player2Up);
+            }
+            else if (kbController.isDownP2Pressed()) {
+                dy += speed;
+                player.setImage(sprites.player2Down);
+            }
+            else if (kbController.isLeftP2Pressed()) {
+                dx -= speed;
+                player.setImage(sprites.player2Left);
+            }
+            else if (kbController.isRightP2Pressed()) {
+                dx += speed;
+                player.setImage(sprites.player2Right);
+            }
         }
 
         // Apply movement if there is any change
         if (dx != 0 || dy != 0) {
-            // Store previous position *before* changing coordinates
             player.storePreviousPosition();
-
-            // Update player position (basic example)
-            // More sophisticated movement might involve direction vectors, angles, etc.
             player.setX(player.getX() + dx);
             player.setY(player.getY() + dy);
-
-            // After moving, collision detection should happen (likely in gameModel.update or CollisionController)
-            // If a collision occurs, player.undoMove() might be called.
             System.out.println("Player " + (playerIndex + 1) + " moved to (" + player.getX() + ", " + player.getY() + ")"); // Debug
+
         }
     }
 
@@ -218,21 +232,14 @@ public class GameController implements IGameController, ActionListener { // Impl
     public boolean isRunning() {
         return running;
     }
+    private BufferedImage FacingPlayer(BufferedImage image,IEntity player, int f) {
+        if (image == null) {
+            return null;
+        }
+        int with = image.getWidth();
+        int height = image.getHeight();
+        return null;
+    }
 
-    // --- Helper methods needed in KeyboardController for the example above ---
-    // You would need to add these (or similar logic) to KeyboardController.java
-    /*
-    public boolean isUpP1Pressed() { return upP1; }
-    public boolean isDownP1Pressed() { return downP1; }
-    public boolean isLeftP1Pressed() { return leftP1; }
-    public boolean isRightP1Pressed() { return rightP1; }
-    public boolean isShootP1Pressed() { return shootP1; } // Assuming you add shootP1 flag
-
-    public boolean isUpP2Pressed() { return upP2; }
-    public boolean isDownP2Pressed() { return downP2; }
-    public boolean isLeftP2Pressed() { return leftP2; }
-    public boolean isRightP2Pressed() { return rightP2; }
-    public boolean isShootP2Pressed() { return shootP2; } // Assuming you add shootP2 flag
-    */
 
 }

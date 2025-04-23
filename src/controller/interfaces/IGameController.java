@@ -10,10 +10,7 @@ public interface IGameController {
     
 
     void setModel(IGameModel model);
-    
 
-    void setView(IGameView view);
-    
 
     void startGame();
     
