@@ -7,14 +7,14 @@ import model.interfaces.IEntity;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/**
- * Water entity - slows down player movement
- */
+
 public class Water extends EntityBase implements ICollidable {
 
-    @Override
-    protected void initHitBox() {
-
+    public Water(int x, int y, BufferedImage image) {
+        this.image = image;
+        this.x = x;
+        this.y = y;
+        this.bounds = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight()); 
     }
 
     @Override
@@ -24,7 +24,6 @@ public class Water extends EntityBase implements ICollidable {
 
     @Override
     public void handleCollision(IEntity other) {
-
     }
 
     @Override
