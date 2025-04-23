@@ -66,7 +66,7 @@ public class Main {
                 gameController.setModel(gameModel);
                 ((GameController) gameController).setInputController(keyboardController); // Ép kiểu nếu cần gọi phương thức cụ thể
                 //((GameController) gameController).setCollisionController(collisionController); // Truyền collision controller vào
-                gameController.setView(gamePanel); // Kết nối View nếu GameController cần tương tác trực tiếp với View (hiện tại chưa cần)
+                //gameController.setView(gamePanel); // Kết nối View nếu GameController cần tương tác trực tiếp với View (hiện tại chưa cần)
 
                 // Thêm KeyListener vào GamePanel (Panel cần focusable=true)
                 gamePanel.addKeyListener((KeyListener) keyboardController); // Ép kiểu KeyboardController thành KeyListener

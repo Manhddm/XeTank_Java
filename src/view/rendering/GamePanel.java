@@ -70,7 +70,6 @@ public class GamePanel extends JPanel implements IGameView {
 
                 // Xác định loại entity và gọi renderer tương ứng
                 if (entity instanceof Player) {
-                    System.out.println("co player");
                     if (playerRenderer != null) {
                         playerRenderer.render(g2d, entity);
                     } else {

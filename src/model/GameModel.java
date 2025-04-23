@@ -26,7 +26,7 @@ public class GameModel implements IGameModel {
     Player player2;
     List<IEntity> allEntities = new ArrayList<>(); // Khởi tạo danh sách ngay lập tức
 
-    private float defaultPlayerSpeed = 3.0f; // Tốc độ mặc định cho người chơi
+    private float defaultPlayerSpeed = 5.0f; // Tốc độ mặc định cho người chơi
 
     @Override
     public void initialize() {
@@ -42,7 +42,7 @@ public class GameModel implements IGameModel {
         // Lưu ý: Đường dẫn tuyệt đối như "D:/..." rất không linh hoạt.
         // Nên đặt ảnh vào thư mục `res` trong project và đọc bằng ClassLoader.
         // Ví dụ cấu trúc: src/..., res/player/BlueTank.png
-        BufferedImage p1Image = loadImageFromResources("/res/player/BlueTank.png"); // Đường dẫn tương đối từ thư mục resources
+        BufferedImage p1Image = loadImageFromResources("/res/player/BlueTankRight.png"); // Đường dẫn tương đối từ thư mục resources
         if (p1Image != null) {
             player1.setImage(p1Image);
             System.out.println("Player 1 image loaded.");
@@ -50,7 +50,7 @@ public class GameModel implements IGameModel {
             System.err.println("Failed to load Player 1 image.");
         }
 
-        BufferedImage p2Image = loadImageFromResources("/res/player/RedTank.png");
+        BufferedImage p2Image = loadImageFromResources("/res/player/RedTankLeft.png");
         if (p2Image != null) {
             player2.setImage(p2Image);
             System.out.println("Player 2 image loaded.");

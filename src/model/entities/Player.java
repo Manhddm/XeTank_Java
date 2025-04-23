@@ -3,6 +3,7 @@ import model.base.MovableEntityBase;
 
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Player entity representing a tank in the game
@@ -12,7 +13,7 @@ public class Player extends MovableEntityBase {
     private final static int maxHealth = 100;
     private int damage;
     private String name;
-
+    public boolean faceRight, faceLeft, faceUp, faceDown;
     public Player(String name, float x, float y, float speed ) {
         this.name = name;
         this.x = x;
@@ -46,26 +47,27 @@ public class Player extends MovableEntityBase {
     }
 
     @Override
-    public void move() {
-    }
+    public void move() {}
+
 
     @Override
     public void undoMove() {
+        super.undoMove();
     }
 
     @Override
     public float getSpeed() {
-        return 0;
+        return super.getSpeed();
     }
 
     @Override
     public void setSpeed(float speed) {
-
+        super.setSpeed(speed);
     }
 
     @Override
     public void storePreviousPosition() {
-
+        super.storePreviousPosition();
     }
 
     @Override
@@ -101,6 +103,11 @@ public class Player extends MovableEntityBase {
     @Override
     public void draw(Graphics g) {
 
+    }
+
+    @Override
+    public void setImage(BufferedImage image) {
+        this.image = image;
     }
 
     @Override

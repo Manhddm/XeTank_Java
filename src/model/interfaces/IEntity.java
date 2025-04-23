@@ -1,6 +1,7 @@
 package model.interfaces;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Base interface for all game entities
@@ -42,7 +43,8 @@ public interface IEntity {
      * @param g Graphics context for rendering
      */
     void draw(Graphics g);
-    
+    void setImage(BufferedImage image);
+    BufferedImage getImage();
     /**
      * Update the entity state
      * Called each game update cycle
