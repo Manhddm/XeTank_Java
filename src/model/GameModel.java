@@ -8,12 +8,10 @@ import model.map.GameMap;
 // import view.renderers.PlayerRenderer; // Không cần import renderer trong model
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File; // Dùng File để đọc ảnh từ đường dẫn cục bộ
 import java.io.IOException;
 import java.io.InputStream; // Dùng InputStream để đọc ảnh từ resources
-import java.net.URL;
+
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
