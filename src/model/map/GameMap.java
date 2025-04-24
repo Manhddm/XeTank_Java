@@ -17,9 +17,9 @@ import java.util.ArrayList;
 
 public class GameMap {
     int mapTileNum[][];
-    ArrayList<Wall> walls = new ArrayList<>();
-    ArrayList<Water> waters = new ArrayList<>();
-    ArrayList<Grass> grasses = new ArrayList<>();
+    private ArrayList<Wall> walls = new ArrayList<>();
+    private ArrayList<Water> waters = new ArrayList<>();
+    private ArrayList<Grass> grasses = new ArrayList<>();
     private BufferedImage mapImage;
     private final Sprites sprites = new Sprites();
     
@@ -27,6 +27,7 @@ public class GameMap {
         mapTileNum = new int[GameConstants.MAX_SCREEN_COL][GameConstants.MAX_SCREEN_ROW];
         loadMap();
         drawMapToImage();
+
     }
 
     public void loadMap() {

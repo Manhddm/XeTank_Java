@@ -1,4 +1,5 @@
 package model.entities;
+import core.GameConstants;
 import model.base.MovableEntityBase;
 
 
@@ -18,7 +19,7 @@ public class Player extends MovableEntityBase {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.hitBox = new Rectangle((int)x,(int)y,10,10);
+        this.hitBox = new Rectangle((int)x,(int)y, GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
         this.health = maxHealth;
         this.speed = speed;
     }
@@ -114,5 +115,10 @@ public class Player extends MovableEntityBase {
     @Override
     public void update() {
 
+    }
+
+    @Override
+    public boolean isSolid() {
+        return true;
     }
 }

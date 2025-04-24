@@ -31,4 +31,9 @@ public class Bullet extends MovableEntityBase {
     public void storePreviousPosition() {
 
     }
+
+    @Override
+    public boolean isSolid() {
+        return true;
+    }
 }

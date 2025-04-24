@@ -31,7 +31,7 @@ public class Wall extends EntityBase implements ICollidable {
 
     @Override
     public boolean isSolid() {
-        return false;
+        return true;
     }
 
     @Override

@@ -17,7 +17,10 @@ public class WallRenderer implements IRenderer {
 
     @Override
     public void render(Graphics g, IEntity entity) {
-
+        if (entity instanceof Wall wall) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.drawImage(wall.getImage(),(int)wall.getX(),(int)wall.getY(),32,32,null);
+        }
     }
 
 

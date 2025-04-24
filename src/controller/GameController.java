@@ -15,17 +15,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 
 public class GameController implements IGameController, ActionListener { // Implement ActionListener for Timer
     private IGameModel gameModel;
-    private IGameView gameView; // Keep the view reference, even if not fully used yet
+    private CollisionController collisionController;
     private GamePanel gamePanel ;
     private IInputController inputController;
     private Sprites sprites = new Sprites();
     private Timer gameTimer; // Timer for the game loop
     private boolean running = false;
-    private final int GAME_TICK_DELAY = 1000 / 120; // Approx 60 FPS
+    private final int GAME_TICK_DELAY = 1000 / 60; // Approx 60 FPS
 
     // Constructor (optional, could do setup in initialize)
     public GameController() {
@@ -222,7 +223,7 @@ public class GameController implements IGameController, ActionListener { // Impl
             player.storePreviousPosition();
             player.setX(player.getX() + dx);
             player.setY(player.getY() + dy);
-            System.out.println("Player " + (playerIndex + 1) + " moved to (" + player.getX() + ", " + player.getY() + ")"); // Debug
+            //System.out.println("Player " + (playerIndex + 1) + " moved to (" + player.getX() + ", " + player.getY() + ")"); // Debug
 
         }
     }

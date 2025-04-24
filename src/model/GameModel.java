@@ -1,6 +1,7 @@
 package model;
 
 import core.GameConstants;
+import core.Sprites;
 import model.entities.*;
 import model.interfaces.IEntity;
 import model.interfaces.IGameModel;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 public class GameModel implements IGameModel {
     Player player1;
     Player player2;
-    GameMap gameMap;
+    Sprites sprites = new Sprites();
     List<IEntity> allEntities = new ArrayList<>(); // Khởi tạo danh sách ngay lập tức
 
     private float defaultPlayerSpeed = 5.0f; // Tốc độ mặc định cho người chơi
@@ -32,7 +33,7 @@ public class GameModel implements IGameModel {
     public void initialize() {
         System.out.println("Initializing GameModel...");
         allEntities.clear(); // Xóa các thực thể cũ trước khi khởi tạo lại
-        gameMap = new GameMap();
+
         // --- Khởi tạo người chơi ---
         player1 = new Player("Blue", 100, 100, defaultPlayerSpeed); // Vị trí và tốc độ ban đầu P1
         player2 = new Player("Red", GameConstants.GAME_SCREEN_WIDTH - 100 - (GameConstants.TILE_SIZE * 2), // Gần góc phải
@@ -42,7 +43,7 @@ public class GameModel implements IGameModel {
         // Lưu ý: Đường dẫn tuyệt đối như "D:/..." rất không linh hoạt.
         // Nên đặt ảnh vào thư mục `res` trong project và đọc bằng ClassLoader.
         // Ví dụ cấu trúc: src/..., res/player/BlueTank.png
-        BufferedImage p1Image = loadImageFromResources("/res/player/BlueTankRight.png"); // Đường dẫn tương đối từ thư mục resources
+        BufferedImage p1Image = sprites.player1Right; // Đường dẫn tương đối từ thư mục resources
         if (p1Image != null) {
             player1.setImage(p1Image);
             System.out.println("Player 1 image loaded.");
@@ -50,7 +51,7 @@ public class GameModel implements IGameModel {
             System.err.println("Failed to load Player 1 image.");
         }
 
-        BufferedImage p2Image = loadImageFromResources("/res/player/RedTankLeft.png");
+        BufferedImage p2Image = sprites.player2Right;
         if (p2Image != null) {
             player2.setImage(p2Image);
             System.out.println("Player 2 image loaded.");
@@ -59,10 +60,25 @@ public class GameModel implements IGameModel {
         }
 
         // Thêm người chơi vào danh sách thực thể
+
         addEntity(player1);
         addEntity(player2);
         System.out.println("Players added to entities list.");
-
+//        ArrayList<Wall> walls = gameMap.getWalls();
+//        for (Wall wall : walls) {
+//            addEntity(wall);
+//        }
+//        System.out.println("Walls added to entities list.");
+//        ArrayList<Water> waters = gameMap.getWaters();
+//        for (Water water : waters) {
+//            addEntity(water);
+//        }
+//        System.out.println("Waters added to entities list.");
+//        ArrayList<Grass> grasses = gameMap.getGrasses();
+//        for (Grass grass : grasses) {
+//            addEntity(grass);
+//        }
+//        System.out.println("Grasses added to entities list.");
 //        // --- Khởi tạo tường (Ví dụ) ---
 //        // Tạo một đường viền tường xung quanh màn hình
 //        int wallSize = GameConstants.TILE_SIZE;
