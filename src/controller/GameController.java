@@ -4,6 +4,7 @@ import controller.interfaces.IGameController;
 import controller.interfaces.IInputController; // Import IInputController
 import core.Sprites;
 import model.GameModel;
+import model.entities.Grass;
 import model.entities.Wall;
 import model.entities.Water;
 import model.interfaces.IGameModel;
@@ -29,7 +30,10 @@ public class GameController implements IGameController, ActionListener { // Impl
     private Sprites sprites = new Sprites();
     private Timer gameTimer; // Timer for the game loop
     private boolean running = false;
-    private final int GAME_TICK_DELAY = 1000 / 60; // Approx 60 FPS
+    private final int GAME_TICK_DELAY = 1000 / 80; // Approx 60 FPS
+    private List<Wall> walls;
+    private List<Water> waters ;
+    private List<Grass> grasses;
 
     // Constructor (optional, could do setup in initialize)
     public GameController() {
@@ -49,6 +53,9 @@ public class GameController implements IGameController, ActionListener { // Impl
     @Override
     public void setModel(IGameModel model) {
         this.gameModel = model;
+        this.walls = gameModel.getEntitiesOfType(Wall.class);
+        this.waters = gameModel.getEntitiesOfType(Water.class);
+        this.grasses = gameModel.getEntitiesOfType(Grass.class);
     }
 
 
@@ -127,13 +134,13 @@ public class GameController implements IGameController, ActionListener { // Impl
             IMovable player1 = (IMovable) player1Entity;
             handlePlayerMovement(player1, inputController, 0); // Pass player index 0
             //Kiem tra va cham voi tuong khi di chuyen
-            List<Wall> walls = gameModel.getEntitiesOfType(Wall.class);
-            if (collisionController.checkCollisionWithStatic(player1,walls)){
+            //List<Wall> walls = gameModel.getEntitiesOfType(Wall.class);
+            if (collisionController.checkCollisionWithStatic(player1,this.walls)){
                 player1.undoMove();
             }
             //Kiem Tra va cham voi nuoc
-            List<Water> waters = gameModel.getEntitiesOfType(Water.class);
-            if (collisionController.checkCollisionWithStatic(player1,waters)){
+           // List<Water> waters = gameModel.getEntitiesOfType(Water.class);
+            if (collisionController.checkCollisionWithStatic(player1,this.waters)){
                 System.out.println("Toc do tang len");
                 player1.setSpeed(GameModel.defaultPlayerSpeed - GameModel.defaultPlayerSpeed*0.5f);
             }else {
@@ -188,7 +195,10 @@ public class GameController implements IGameController, ActionListener { // Impl
         // If GameView was fully implemented, you might call:
         // if (gameView != null) gameView.render();
     }
+    //Check Collision
+    void handleCollisionWithStatic(IEntity player, int playerIndex) {
 
+    }
     // Helper method to handle movement logic based on input
     private void handlePlayerMovement(IMovable player, IInputController input, int playerIndex) {
 
