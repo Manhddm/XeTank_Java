@@ -4,6 +4,8 @@ import controller.interfaces.IGameController;
 import controller.interfaces.IInputController; // Import IInputController
 import core.Sprites;
 import model.GameModel;
+import model.entities.Wall;
+import model.entities.Water;
 import model.interfaces.IGameModel;
 import model.interfaces.IEntity; // Import IEntity
 import model.interfaces.IMovable; // Import IMovable
@@ -16,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GameController implements IGameController, ActionListener { // Implement ActionListener for Timer
@@ -31,7 +34,7 @@ public class GameController implements IGameController, ActionListener { // Impl
     // Constructor (optional, could do setup in initialize)
     public GameController() {
         // Initialization logic can go here or in initialize()
-
+        collisionController = new CollisionController();
     }
     public void setGamePanel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -123,6 +126,20 @@ public class GameController implements IGameController, ActionListener { // Impl
         if (player1Entity instanceof IMovable) { // Check if the entity is movable
             IMovable player1 = (IMovable) player1Entity;
             handlePlayerMovement(player1, inputController, 0); // Pass player index 0
+            //Kiem tra va cham voi tuong khi di chuyen
+            List<Wall> walls = gameModel.getEntitiesOfType(Wall.class);
+            if (collisionController.checkCollisionWithStatic(player1,walls)){
+                player1.undoMove();
+            }
+            //Kiem Tra va cham voi nuoc
+            List<Water> waters = gameModel.getEntitiesOfType(Water.class);
+            if (collisionController.checkCollisionWithStatic(player1,waters)){
+                System.out.println("Toc do tang len");
+                player1.setSpeed(GameModel.defaultPlayerSpeed - GameModel.defaultPlayerSpeed*0.5f);
+            }else {
+                System.out.println("Hoan tra toc do");
+                player1.setSpeed(GameModel.defaultPlayerSpeed);
+            }
             // Handle shooting/actions for player 1
             if (inputController.isPlayerShooting(0)) {
                 // TODO: Implement player1.shoot() or similar in Player/GameModel
@@ -223,6 +240,7 @@ public class GameController implements IGameController, ActionListener { // Impl
             player.storePreviousPosition();
             player.setX(player.getX() + dx);
             player.setY(player.getY() + dy);
+            player.update();
             //System.out.println("Player " + (playerIndex + 1) + " moved to (" + player.getX() + ", " + player.getY() + ")"); // Debug
 
         }

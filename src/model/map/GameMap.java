@@ -111,6 +111,7 @@ public class GameMap {
 
     public void draw(Graphics g) {
         g.drawImage(mapImage, 0, 0, null);
+        //System.out.println("MAP DA DUOC KHOI TAO");
     }
 
     public ArrayList<Wall> getWalls() {

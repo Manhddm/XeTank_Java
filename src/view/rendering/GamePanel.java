@@ -70,9 +70,9 @@ public class GamePanel extends JPanel implements IGameView {
         if (currentEntities != null) {
             // Tạo bản sao để tránh lỗi ConcurrentModificationException
             // nếu danh sách bị thay đổi trong lúc vẽ (ví dụ: đạn được tạo ra)
-            List<? extends IEntity> entitiesToRender = new ArrayList<>(currentEntities);
-
-            for (IEntity entity : entitiesToRender) {
+            //List<? extends IEntity> entitiesToRender = new ArrayList<>(currentEntities);
+            List<Player> players = gameModel.getEntitiesOfType(Player.class);
+            for (IEntity entity : players) {
                 if (entity == null) continue; // Bỏ qua nếu entity bị null
 
                 // Xác định loại entity và gọi renderer tương ứng
@@ -82,21 +82,6 @@ public class GamePanel extends JPanel implements IGameView {
                     } else {
                         entity.draw(g2d); // Vẽ mặc định nếu renderer null
                     }
-                } else if (entity instanceof Wall) {
-                    // Nếu có WallRenderer riêng:
-                    if (wallRenderer != null) {
-                        wallRenderer.render(g2d, entity);
-                    } else {
-                        entity.draw(g2d); // Gọi draw() của Wall nếu không có renderer
-                    }
-                    // Hoặc chỉ cần gọi draw() nếu Wall tự vẽ được:
-                    // entity.draw(g2d);
-                } else if (entity instanceof Grass) {
-                    if (grassRenderer != null) {
-                        grassRenderer.render(g2d, entity);
-
-                    }
-
                 }
                 // else if (entity instanceof Water) { ... }
                 // else if (entity instanceof Grass) { ... }

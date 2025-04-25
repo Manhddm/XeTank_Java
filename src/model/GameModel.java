@@ -26,8 +26,8 @@ public class GameModel implements IGameModel {
     Player player2;
     Sprites sprites = new Sprites();
     List<IEntity> allEntities = new ArrayList<>(); // Khởi tạo danh sách ngay lập tức
-
-    private float defaultPlayerSpeed = 5.0f; // Tốc độ mặc định cho người chơi
+    GameMap gameMap =  new GameMap();
+    public final static float defaultPlayerSpeed = 5.0f; // Tốc độ mặc định cho người chơi
 
     @Override
     public void initialize() {
@@ -35,7 +35,7 @@ public class GameModel implements IGameModel {
         allEntities.clear(); // Xóa các thực thể cũ trước khi khởi tạo lại
 
         // --- Khởi tạo người chơi ---
-        player1 = new Player("Blue", 100, 100, defaultPlayerSpeed); // Vị trí và tốc độ ban đầu P1
+        player1 = new Player("Blue", 40, 40, defaultPlayerSpeed); // Vị trí và tốc độ ban đầu P1
         player2 = new Player("Red", GameConstants.GAME_SCREEN_WIDTH - 100 - (GameConstants.TILE_SIZE * 2), // Gần góc phải
                 GameConstants.GAME_SCREEN_HEIGHT - 100 - (GameConstants.TILE_SIZE * 2), defaultPlayerSpeed); // Vị trí và tốc độ ban đầu P2
 
@@ -64,37 +64,21 @@ public class GameModel implements IGameModel {
         addEntity(player1);
         addEntity(player2);
         System.out.println("Players added to entities list.");
-//        ArrayList<Wall> walls = gameMap.getWalls();
-//        for (Wall wall : walls) {
-//            addEntity(wall);
-//        }
-//        System.out.println("Walls added to entities list.");
-//        ArrayList<Water> waters = gameMap.getWaters();
-//        for (Water water : waters) {
-//            addEntity(water);
-//        }
-//        System.out.println("Waters added to entities list.");
-//        ArrayList<Grass> grasses = gameMap.getGrasses();
-//        for (Grass grass : grasses) {
-//            addEntity(grass);
-//        }
-//        System.out.println("Grasses added to entities list.");
-//        // --- Khởi tạo tường (Ví dụ) ---
-//        // Tạo một đường viền tường xung quanh màn hình
-//        int wallSize = GameConstants.TILE_SIZE;
-//        // Tường trên và dưới
-//        for (int col = 0; col < GameConstants.MAX_SCREEN_COL; col++) {
-//            addEntity(new Wall(col * wallSize, 0)); // Hàng trên cùng
-//            addEntity(new Wall(col * wallSize, GameConstants.GAME_SCREEN_HEIGHT - wallSize)); // Hàng dưới cùng
-//        }
-//        // Tường trái và phải (bỏ qua góc đã có tường)
-//        for (int row = 1; row < GameConstants.MAX_SCREEN_ROW - 1; row++) {
-//            addEntity(new Wall(0, row * wallSize)); // Cột trái
-//            addEntity(new Wall(GameConstants.GAME_SCREEN_WIDTH - wallSize -10, row * wallSize)); // Cột phải (-10 là do width màn hình dư ra)
-//        }
-       //System.out.println("Walls added to entities list.");
-
-        System.out.println("GameModel initialized with " + allEntities.size() + " entities.");
+        ArrayList<Wall> walls = gameMap.getWalls();
+        for (Wall wall : walls) {
+            addEntity(wall);
+        }
+        System.out.println("Walls added to entities list.");
+        ArrayList<Water> waters = gameMap.getWaters();
+        for (Water water : waters) {
+            addEntity(water);
+        }
+        System.out.println("Waters added to entities list.");
+        ArrayList<Grass> grasses = gameMap.getGrasses();
+        for (Grass grass : grasses) {
+            addEntity(grass);
+        }
+        System.out.println("Grasses added to entities list.");
     }
 
     // Helper method để tải ảnh từ thư mục resources
