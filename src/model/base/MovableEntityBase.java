@@ -8,11 +8,6 @@ public abstract class MovableEntityBase extends EntityBase implements IMovable {
     protected float prevY;
 
     @Override
-    protected void initHitBox() {
-
-    }
-
-    @Override
     public void move() {
 
     }
