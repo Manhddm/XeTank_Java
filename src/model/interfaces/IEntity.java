@@ -27,4 +27,6 @@ public interface IEntity {
      * Called each game update cycle
      */
     void update();
+
+    boolean isSolid();
 }

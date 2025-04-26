@@ -1,4 +1,5 @@
 package model.entities;
+import core.GameConstants;
 import model.base.MovableEntityBase;
 
 
@@ -18,7 +19,7 @@ public class Player extends MovableEntityBase {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.bounds = new Rectangle((int)x,(int)y,10,10);
+        this.hitBox = new Rectangle((int)x,(int)y, GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
         this.health = maxHealth;
         this.speed = speed;
     }
@@ -72,11 +73,6 @@ public class Player extends MovableEntityBase {
     }
 
     @Override
-    protected void initHitBox() {
-        this.hitBox = new Rectangle((int)x,(int)y,64,64);
-    }
-
-    @Override
     public float getX() {
         return super.getX();
     }
@@ -98,7 +94,7 @@ public class Player extends MovableEntityBase {
 
     @Override
     public Rectangle getHitBox() {
-        return hitBox != null ? hitBox.getBounds() : new Rectangle((int)x, (int)y, 64, 64);
+        return hitBox != null ? hitBox.getBounds() : new Rectangle((int)x, (int)y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
     }
 
     @Override
@@ -113,6 +109,12 @@ public class Player extends MovableEntityBase {
 
     @Override
     public void update() {
+        hitBox.x = (int)this.x;
+        hitBox.y = (int)this.y;
+    }
 
+    @Override
+    public boolean isSolid() {
+        return true;
     }
 }

@@ -17,7 +17,10 @@ public class GrassRenderer implements IRenderer {
 
     @Override
     public void render(Graphics g, IEntity entity) {
-
+        if (entity instanceof Grass grass) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.drawImage(grass.getImage(),(int)grass.getX(),(int)grass.getY(),32,32,null);
+        }
     }
 
 

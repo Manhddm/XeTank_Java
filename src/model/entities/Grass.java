@@ -1,5 +1,6 @@
 package model.entities;
 
+import core.GameConstants;
 import model.base.EntityBase;
 import model.interfaces.ICollidable;
 import model.interfaces.IEntity;
@@ -15,7 +16,7 @@ public class Grass extends EntityBase implements ICollidable {
         this.image = image;
         this.x = x;
         this.y = y;
-        this.hitBox = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight()); 
+        this.hitBox = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
     }
 
     @Override

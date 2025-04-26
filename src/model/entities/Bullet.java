@@ -6,7 +6,12 @@ import model.base.MovableEntityBase;
  * Bullet entity - fired by players
  */
 public class Bullet extends MovableEntityBase {
-
+    private int isPlayer;
+    public Bullet(int x, int y, int isPlayer) {
+        this.x = x;
+        this.y = y;
+        this.isPlayer = isPlayer;
+    }
     @Override
     public void move() {
 
@@ -30,5 +35,16 @@ public class Bullet extends MovableEntityBase {
     @Override
     public void storePreviousPosition() {
 
+    }
+
+    @Override
+    public boolean isSolid() {
+        return true;
+    }
+    public int getIsPlayer() {
+        return isPlayer;
+    }
+    public void setIsPlayer(int isPlayer) {
+        this.isPlayer = isPlayer;
     }
 }

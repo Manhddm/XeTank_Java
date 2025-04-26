@@ -5,23 +5,28 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
+import model.entities.Grass;
 import model.entities.Player;
 import model.entities.Wall; // Import Wall
 import model.interfaces.IEntity;
 import core.GameConstants;
 import model.interfaces.IGameModel;
+import model.map.GameMap;
 import view.interfaces.IGameView;
+import view.renderers.GrassRenderer;
 import view.renderers.PlayerRenderer;
 import view.renderers.WallRenderer; // Import WallRenderer (nếu có)
 
 // Bỏ implements ActionListener
 public class GamePanel extends JPanel implements IGameView {
-    // private Timer gameTimer; // Xóa bỏ timer
-    private IGameModel gameModel; // Giữ tham chiếu đến model
+
+    private IGameModel gameModel;
 
     // Các renderer cụ thể (có thể quản lý bằng cách khác, ví dụ Map)
+    private final GameMap gameMap = new GameMap();
     private PlayerRenderer playerRenderer;
     private WallRenderer wallRenderer; // Thêm WallRenderer (nếu có)
+    private GrassRenderer grassRenderer;
     // Thêm các renderer khác nếu cần (Water, Grass, Bullet...)
 
     public GamePanel(IGameModel gameModel) {
@@ -30,6 +35,7 @@ public class GamePanel extends JPanel implements IGameView {
         // Khởi tạo các renderer
         this.playerRenderer = new PlayerRenderer();
         this.wallRenderer = new WallRenderer(); // Khởi tạo WallRenderer
+        this.grassRenderer = new GrassRenderer();
         // Khởi tạo các renderer khác...
 
         setPreferredSize(new Dimension(GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT));
@@ -47,6 +53,7 @@ public class GamePanel extends JPanel implements IGameView {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Gọi phương thức vẽ của lớp cha (quan trọng)
         Graphics2D g2d = (Graphics2D) g.create(); // Tạo bản sao context để tránh ảnh hưởng lẫn nhau
+        gameMap.draw(g2d);
         if (gameModel == null) {
             // Vẽ thông báo lỗi nếu model chưa được set
             g2d.setColor(Color.RED);
@@ -63,9 +70,9 @@ public class GamePanel extends JPanel implements IGameView {
         if (currentEntities != null) {
             // Tạo bản sao để tránh lỗi ConcurrentModificationException
             // nếu danh sách bị thay đổi trong lúc vẽ (ví dụ: đạn được tạo ra)
-            List<? extends IEntity> entitiesToRender = new ArrayList<>(currentEntities);
-
-            for (IEntity entity : entitiesToRender) {
+            //List<? extends IEntity> entitiesToRender = new ArrayList<>(currentEntities);
+            List<Player> players = gameModel.getEntitiesOfType(Player.class);
+            for (IEntity entity : players) {
                 if (entity == null) continue; // Bỏ qua nếu entity bị null
 
                 // Xác định loại entity và gọi renderer tương ứng
@@ -75,15 +82,6 @@ public class GamePanel extends JPanel implements IGameView {
                     } else {
                         entity.draw(g2d); // Vẽ mặc định nếu renderer null
                     }
-                } else if (entity instanceof Wall) {
-                    // Nếu có WallRenderer riêng:
-                    if (wallRenderer != null) {
-                        wallRenderer.render(g2d, entity);
-                    } else {
-                        entity.draw(g2d); // Gọi draw() của Wall nếu không có renderer
-                    }
-                    // Hoặc chỉ cần gọi draw() nếu Wall tự vẽ được:
-                    // entity.draw(g2d);
                 }
                 // else if (entity instanceof Water) { ... }
                 // else if (entity instanceof Grass) { ... }

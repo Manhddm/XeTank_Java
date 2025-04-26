@@ -1,16 +1,10 @@
 package view.renderers;
-
-
+import core.GameConstants;
 import model.entities.Player;
 import model.interfaces.IEntity;
 import view.interfaces.IRenderer;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+
 
 /**
  * PlayerRenderer - responsible for rendering Player entities
@@ -20,12 +14,11 @@ public class PlayerRenderer implements IRenderer {
 
     @Override
     public void render(Graphics g, IEntity entity) {
-        if (!(entity instanceof Player)){
+        if (!(entity instanceof Player playerToRender)){
             return;
         }
-        Player playerToRender = (Player) entity;
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(playerToRender.getImage(),(int)playerToRender.getX(),(int)playerToRender.getY(),64,64,null);
+        g2d.drawImage(playerToRender.getImage(),(int)playerToRender.getX(),(int)playerToRender.getY(), GameConstants.TILE_SIZE,GameConstants.TILE_SIZE,null);
     }
 
 

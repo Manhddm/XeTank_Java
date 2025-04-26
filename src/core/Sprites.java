@@ -9,6 +9,7 @@ public class Sprites {
     public BufferedImage player1Up, player1Down, player1Left, player1Right;
     public BufferedImage player2Up, player2Down, player2Left, player2Right;
     public BufferedImage bullet;
+    public BufferedImage grass, wall, water,floor;
 
     public Sprites(){
         player1Up = loadImageFromResources("/res/player/BlueTankUp.png");
@@ -22,6 +23,10 @@ public class Sprites {
         player2Right = loadImageFromResources("/res/player/RedTankRight.png");
 
         bullet = loadImageFromResources("/res/player/bullet.png");
+        grass = loadImageFromResources("/res/tiles/grass.png");
+        wall = loadImageFromResources("/res/tiles/wall.png");
+        water = loadImageFromResources("/res/tiles/water.png");
+        floor = loadImageFromResources("/res/tiles/floor.png");
 
     }
     private BufferedImage loadImageFromResources(String path) {
