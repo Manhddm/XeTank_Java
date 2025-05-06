@@ -15,6 +15,7 @@ public class Player extends MovableEntityBase {
     private int damage;
     private String name;
     public boolean faceRight, faceLeft, faceUp, faceDown;
+    
     public Player(String name, float x, float y, float speed ) {
         this.name = name;
         this.x = x;

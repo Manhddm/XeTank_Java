@@ -35,5 +35,8 @@ public class Wall extends EntityBase implements ICollidable {
         return true;
     }
 
-
+    // @Override
+    // protected void initHitBox() {
+    //     this.hitBox = new Rectangle((int)x,(int)y, GameConstants.TILE_SIZE-5,GameConstants.TILE_SIZE-5);
+    // }
 }

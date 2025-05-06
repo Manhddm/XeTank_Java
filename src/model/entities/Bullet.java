@@ -23,16 +23,6 @@ public class Bullet extends MovableEntityBase {
     }
 
     @Override
-    public float getSpeed() {
-        return 0;
-    }
-
-    @Override
-    public void setSpeed(float speed) {
-
-    }
-
-    @Override
     public void storePreviousPosition() {
 
     }

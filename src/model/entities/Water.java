@@ -15,7 +15,7 @@ public class Water extends EntityBase implements ICollidable {
         this.image = image;
         this.x = x;
         this.y = y;
-        this.hitBox = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
+        this.hitBox = new Rectangle((int) x, (int) y, GameConstants.TILE_SIZE -5, GameConstants.TILE_SIZE-5);
     }
 
     @Override

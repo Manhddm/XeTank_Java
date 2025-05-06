@@ -16,15 +16,14 @@ public class CollisionController implements ICollisionController {
 
     @Override
     public boolean checkCollision(IEntity entity1, IEntity entity2) {
+        if (entity1 == entity2) { return false; }
         if (entity1.isSolid() && entity2.isSolid()) {
             if (entity1.getHitBox().intersects(entity2.getHitBox())) {
                 //System.out.println("Va Cham thang lon");
-                return false;
+                return true;
             }
-        } else if (entity1.isSolid() && !entity2.isSolid()) {
-            return !entity1.getHitBox().intersects(entity2.getHitBox());
         }
-        return true;
+        return false;
     }
     public boolean checkCollisionWithStatic(IMovable entity, List<? extends IEntity> staticEntities) {
         Rectangle nextHitBox = entity.getHitBox();

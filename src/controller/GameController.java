@@ -119,7 +119,6 @@ public class GameController implements IGameController, ActionListener { // Impl
         gamePanel.repaint();
     }
 
-
     @Override
     public void processTick() {
         if (!running || gameModel == null || inputController == null) {
@@ -134,18 +133,7 @@ public class GameController implements IGameController, ActionListener { // Impl
         if (player1Entity instanceof IMovable) { // Check if the entity is movable
             IMovable player1 = (IMovable) player1Entity;
             handlePlayerMovement(player1, inputController, 0); // Pass player index 0
-            //Kiem tra va cham voi tuong khi di chuyen
-            //List<Wall> walls = gameModel.getEntitiesOfType(Wall.class);
-            if (collisionController.checkCollisionWithStatic(player1,this.walls)){
-                player1.undoMove();
-            }
-            //Kiem Tra va cham voi nuoc
-           // List<Water> waters = gameModel.getEntitiesOfType(Water.class);
-            if (collisionController.checkCollisionWithStatic(player1,this.waters)){
-                player1.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED - GameConstants.DEAFAULT_PLAYER_SPEED*0.5f);
-            }else {
-                player1.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED);
-            }
+            handleCollision(player1);
             // Handle shooting/actions for player 1
             if (inputController.isPlayerShooting(0)) {
                 // TODO: Implement player1.shoot() or similar in Player/GameModel
@@ -163,6 +151,7 @@ public class GameController implements IGameController, ActionListener { // Impl
         if (player2Entity instanceof IMovable) { // Check if the entity is movable
             IMovable player2 = (IMovable) player2Entity;
             handlePlayerMovement(player2, inputController, 1); // Pass player index 1
+            handleCollision(player2);
             // Handle shooting/actions for player 2
             if (inputController.isPlayerShooting(1)) {
                 // TODO: Implement player2.shoot() or similar in Player/GameModel
@@ -194,33 +183,37 @@ public class GameController implements IGameController, ActionListener { // Impl
         // If GameView was fully implemented, you might call:
         // if (gameView != null) gameView.render();
     }
+    void handelPlayerShooting(IMovable player) {
+
+    }
     //Check Collision
-    void handleCollisionWithStatic(IEntity player, int playerIndex) {
-        // if (player instanceof IMovable) { // Check if the entity is movable
-        //     IMovable player1 = (IMovable) player;
-        //     handlePlayerMovement(player1, inputController, 0); // Pass player index 0
-        //     //Kiem tra va cham voi tuong khi di chuyen
-        //     //List<Wall> walls = gameModel.getEntitiesOfType(Wall.class);
-        //     if (collisionController.checkCollisionWithStatic(player1,this.walls)){
-        //         player1.undoMove();
-        //     }
-        //     //Kiem Tra va cham voi nuoc
-        //    // List<Water> waters = gameModel.getEntitiesOfType(Water.class);
-        //     if (collisionController.checkCollisionWithStatic(player1,this.waters)){
-        //         player1.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED - GameConstants.DEAFAULT_PLAYER_SPEED*0.5f);
-        //     }else {
-        //         player1.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED);
-        //     }
-        //     // Handle shooting/actions for player 1
-        //     if (inputController.isPlayerShooting(0)) {
-        //         // TODO: Implement player1.shoot() or similar in Player/GameModel
-        //         System.out.println("Player 1 trying to shoot (implementation needed)");
-        //     }
-        //     if (inputController.isPlayerAction(0)) {
-        //         // TODO: Implement player1 action
-        //         System.out.println("Player 1 trying to perform action (implementation needed)");
-        //     }
-        // }
+    void handleCollision(IEntity player) {
+        IMovable playerX = (IMovable) player;
+        //Kiem tra va cham voi tuong khi di chuyen
+        //List<Wall> walls = gameModel.getEntitiesOfType(Wall.class);
+        if (collisionController.checkCollisionWithStatic(playerX,this.walls)){
+            playerX.undoMove();
+        }
+        //Kiem Tra va cham voi nuoc
+        // List<Water> waters = gameModel.getEntitiesOfType(Water.class);
+        if (collisionController.checkCollisionWithStatic(playerX,this.waters)){
+            playerX.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED - GameConstants.DEAFAULT_PLAYER_SPEED*0.5f);
+        }else {
+            playerX.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED);
+        }
+        //kiem tra va cham voi co
+        if (collisionController.checkCollisionWithStatic(playerX,this.grasses)){
+            //playerX.tangHinh();
+            playerX.setHidden(false);
+        } else {
+            playerX.setHidden(true);
+        }
+        if (collisionController.checkCollision(playerX, gameModel.getPlayer(0))){
+            playerX.undoMove();
+        }
+        else if (collisionController.checkCollision(playerX, gameModel.getPlayer(1))){
+            playerX.undoMove();
+        }
     }
     // Helper method to handle movement logic based on input
     private void handlePlayerMovement(IMovable player, IInputController input, int playerIndex) {
