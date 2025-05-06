@@ -103,10 +103,7 @@ public class Player extends MovableEntityBase {
         super.storePreviousPosition();
     }
 
-    @Override
-    protected void initHitBox() {
-        this.hitBox = new Rectangle((int)x,(int)y,GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
-    }
+
 
     @Override
     public float getX() {
@@ -138,10 +135,7 @@ public class Player extends MovableEntityBase {
 
     }
 
-    @Override
-    public void update() {
-        initHitBox();
-    }
+
 
     @Override
     public boolean isSolid() {

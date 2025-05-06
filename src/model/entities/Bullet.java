@@ -14,7 +14,7 @@ public class Bullet extends MovableEntityBase {
         //ViTriXuatHien(x,y,huong);
         this.y = y;
         this.x = x;
-        initHitBox();
+        //initHitBox();
     }
     @Override
     public void move() {
