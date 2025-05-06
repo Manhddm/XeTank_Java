@@ -103,8 +103,11 @@ public class Player extends MovableEntityBase {
         super.storePreviousPosition();
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> bc1bc13bf8b126c34b40bd973a4263f319b17268
     @Override
     public float getX() {
         return super.getX();
@@ -136,6 +139,14 @@ public class Player extends MovableEntityBase {
     }
 
 
+<<<<<<< HEAD
+=======
+    @Override
+    public void update() {
+        hitBox.x = (int)this.x;
+        hitBox.y = (int)this.y;
+    }
+>>>>>>> bc1bc13bf8b126c34b40bd973a4263f319b17268
 
     @Override
     public boolean isSolid() {

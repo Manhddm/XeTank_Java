@@ -32,9 +32,4 @@ public class Water extends EntityBase implements ICollidable {
         return false;
     }
 
-    @Override
-    protected void initHitBox() {
-        this.hitBox = new Rectangle((int)x,(int)y, GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
-
-    }
 }

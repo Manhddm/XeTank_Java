@@ -27,7 +27,7 @@ public class GameModel implements IGameModel {
     Sprites sprites = new Sprites();
     List<IEntity> allEntities = new ArrayList<>(); // Khởi tạo danh sách ngay lập tức
     GameMap gameMap =  new GameMap();
-    public final static float defaultPlayerSpeed = 5.0f; // Tốc độ mặc định cho người chơi
+    // public final static float defaultPlayerSpeed = 5.0f; // Tốc độ mặc định cho người chơi
 
     @Override
     public void initialize() {

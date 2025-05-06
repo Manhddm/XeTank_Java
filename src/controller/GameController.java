@@ -2,6 +2,7 @@ package controller;
 
 import controller.interfaces.IGameController;
 import controller.interfaces.IInputController; // Import IInputController
+import core.GameConstants;
 import core.Sprites;
 import model.GameModel;
 import model.entities.*;
@@ -200,13 +201,16 @@ public class GameController implements IGameController, ActionListener { // Impl
         //Kiem Tra va cham voi nuoc
         // List<Water> waters = gameModel.getEntitiesOfType(Water.class);
         if (collisionController.checkCollisionWithStatic(playerX,this.waters)){
-            playerX.setSpeed(GameModel.defaultPlayerSpeed - GameModel.defaultPlayerSpeed*0.5f);
+            playerX.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED - GameConstants.DEAFAULT_PLAYER_SPEED*0.5f);
         }else {
-            playerX.setSpeed(GameModel.defaultPlayerSpeed);
+            playerX.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED);
         }
         //kiem tra va cham voi co
         if (collisionController.checkCollisionWithStatic(playerX,this.grasses)){
             //playerX.tangHinh();
+            playerX.setHidden(false);
+        } else {
+            playerX.setHidden(true);
         }
         if (collisionController.checkCollision(playerX, gameModel.getPlayer(0))){
             playerX.undoMove();

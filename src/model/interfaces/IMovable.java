@@ -8,6 +8,10 @@ public interface IMovable extends IEntity {
 
     void move();
 
+    boolean getHidden();
+
+    void setHidden(boolean hidden);
+
     void undoMove();
 
     float getSpeed();

@@ -6,10 +6,16 @@ public abstract class MovableEntityBase extends EntityBase implements IMovable {
     protected float speed;
     protected float prevX;
     protected float prevY;
+    protected boolean hidden;
 
     @Override
-    protected void initHitBox() {
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
 
+    @Override
+    public boolean getHidden() {
+        return hidden;
     }
 
     @Override

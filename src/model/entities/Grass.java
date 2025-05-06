@@ -14,7 +14,6 @@ public class Grass extends EntityBase implements ICollidable {
 
     public Grass(int x, int y, BufferedImage image) {
         this.image = image;
-        initHitBox();
         this.x = x;
         this.y = y;
         this.hitBox = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
@@ -35,8 +34,4 @@ public class Grass extends EntityBase implements ICollidable {
         return false;
     }
 
-    @Override
-    protected void initHitBox() {
-        this.hitBox = new Rectangle((int)x,(int)y, GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
-    }
 }
