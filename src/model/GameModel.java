@@ -35,9 +35,9 @@ public class GameModel implements IGameModel {
         allEntities.clear(); // Xóa các thực thể cũ trước khi khởi tạo lại
 
         // --- Khởi tạo người chơi ---
-        player1 = new Player("Blue", 40, 40, defaultPlayerSpeed,3); // Vị trí và tốc độ ban đầu P1
+        player1 = new Player("Blue", 40, 40, GameConstants.DEAFAULT_PLAYER_SPEED,3); // Vị trí và tốc độ ban đầu P1
         player2 = new Player("Red", GameConstants.GAME_SCREEN_WIDTH - 100 - (GameConstants.TILE_SIZE * 2), // Gần góc phải
-                GameConstants.GAME_SCREEN_HEIGHT - 100 - (GameConstants.TILE_SIZE * 2), defaultPlayerSpeed, 1); // Vị trí và tốc độ ban đầu P2
+                GameConstants.GAME_SCREEN_HEIGHT - 100 - (GameConstants.TILE_SIZE * 2), GameConstants.DEAFAULT_PLAYER_SPEED, 1); // Vị trí và tốc độ ban đầu P2
 
 
         BufferedImage p1Image = sprites.player1Right; // Đường dẫn tương đối từ thư mục resources
