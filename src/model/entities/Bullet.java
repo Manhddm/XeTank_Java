@@ -2,6 +2,8 @@ package model.entities;
 
 import model.base.MovableEntityBase;
 
+import java.awt.*;
+
 /**
  * Bullet entity - fired by players
  */
@@ -15,6 +17,7 @@ public class Bullet extends MovableEntityBase {
         this.y = y;
         this.x = x;
         //initHitBox();
+        this.hitBox = new Rectangle(x,y,5,5);
     }
     @Override
     public void move() {

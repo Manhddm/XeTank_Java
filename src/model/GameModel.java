@@ -6,7 +6,6 @@ import model.entities.*;
 import model.interfaces.IEntity;
 import model.interfaces.IGameModel;
 import model.map.GameMap;
-// import view.renderers.PlayerRenderer; // Không cần import renderer trong model
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -106,12 +105,7 @@ public class GameModel implements IGameModel {
 
     @Override
     public void update() {
-        // Tạo bản sao để tránh ConcurrentModificationException khi thêm/xóa thực thể trong lúc lặp
-       List<Bullet> bullets = getEntitiesOfType(Bullet.class);
-       for (Bullet bullet : bullets) {
-           bullet.move();
-       }
-        // TODO: Thêm logic cập nhật khác nếu cần (ví dụ: tạo kẻ địch, item,...)
+        // Tạo danh sách các đạn cần xóa sau khi duyệt qua
     }
 
     @Override

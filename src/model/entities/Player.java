@@ -13,6 +13,8 @@ public class Player extends MovableEntityBase {
     private int health;
     private final static int maxHealth = 100;
     private int damage;
+    private long lastShootTime = 0;
+    private static final long SHOOT_COOLDOWN = 1000;
     private String name;
     public boolean faceRight = false, faceLeft= false, faceUp = false, faceDown = false;
     public Player(String name, float x, float y, float speed, int face ) {
@@ -23,6 +25,18 @@ public class Player extends MovableEntityBase {
         this.health = maxHealth;
         this.speed = speed;
         setFace(face);
+    }
+    public boolean canShoot() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastShootTime >= SHOOT_COOLDOWN) {
+            lastShootTime = currentTime;
+            return true;
+        }
+        return false;
+    }
+
+    public void updateLastShotTime() {
+        lastShootTime = System.currentTimeMillis();
     }
     public int getFace(){
         if (faceRight){

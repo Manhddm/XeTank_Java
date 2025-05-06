@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements IGameView {
                     // Vẽ mặc định cho các loại entity khác chưa có renderer riêng
                     entity.draw(g2d);
                 }
-            }
+               }
         } else {
             // Vẽ thông báo nếu danh sách entity là null (ít xảy ra nếu model khởi tạo đúng)
             g2d.setColor(Color.YELLOW);

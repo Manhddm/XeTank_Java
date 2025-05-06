@@ -33,7 +33,6 @@ public class GameController implements IGameController, ActionListener { // Impl
     private List<Wall> walls;
     private List<Water> waters ;
     private List<Grass> grasses;
-    private List<Bullet> bullets;
 
     // Constructor (optional, could do setup in initialize)
     public GameController() {
@@ -176,18 +175,49 @@ public class GameController implements IGameController, ActionListener { // Impl
         // if (gameView != null) gameView.render();
     }
     void handelPlayerShooting(Player player) {
+        int playerIndex =   player == gameModel.getPlayer(0)?0:1;
 
-        if (inputController.isPlayerShooting(0)){
-            System.out.println("Player 1 shoot");
-            Bullet bullet =  new Bullet((int) player.getX(), (int) player.getY(), 0, player.getFace());
+        if (inputController.isPlayerShooting(playerIndex) && player.canShoot()) {
+            // Tính toán vị trí chính xác cho đạn dựa vào hướng của xe tăng
+            float bulletX = player.getX();
+            float bulletY = player.getY();
+            int face = player.getFace();
+
+            // Điều chỉnh vị trí xuất hiện của đạn theo hướng
+            switch (face) {
+                case 1: // LEFT
+                    bulletX = player.getX() - 5;
+                    bulletY = player.getY() + GameConstants.TILE_SIZE / 2 - 3;
+                    break;
+                case 2: // UP
+                    bulletX = player.getX() + GameConstants.TILE_SIZE / 2 - 3;
+                    bulletY = player.getY() - 5;
+                    break;
+                case 3: // RIGHT
+                    bulletX = player.getX() + GameConstants.TILE_SIZE;
+                    bulletY = player.getY() + GameConstants.TILE_SIZE / 2 - 3;
+                    break;
+                case 4: // DOWN
+                    bulletX = player.getX() + GameConstants.TILE_SIZE / 2 - 3;
+                    bulletY = player.getY() + GameConstants.TILE_SIZE;
+                    break;
+            }
+
+            Bullet bullet = new Bullet((int) bulletX, (int) bulletY, playerIndex, face);
             bullet.setImage(sprites.bullet);
             bullet.setSpeed(7f);
             gameModel.addEntity(bullet);
-            inputController.setShootP1(false);
-        }
-        else {
-            inputController.setShootP2(false);
-            System.out.println("Player 2 shoot");
+
+            player.updateLastShotTime();
+
+            // Reset trạng thái bắn ngay lập tức nếu muốn (hoặc giữ lại để kiểm tra nút giữ)
+            if (playerIndex == 0) {
+                inputController.setShootP1(false);
+            } else {
+                inputController.setShootP2(false);
+            }
+
+            System.out.println("Player " + (playerIndex + 1) + " shot a bullet");
         }
     }
     //Check Collision
