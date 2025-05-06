@@ -196,7 +196,31 @@ public class GameController implements IGameController, ActionListener { // Impl
     }
     //Check Collision
     void handleCollisionWithStatic(IEntity player, int playerIndex) {
-
+        // if (player instanceof IMovable) { // Check if the entity is movable
+        //     IMovable player1 = (IMovable) player;
+        //     handlePlayerMovement(player1, inputController, 0); // Pass player index 0
+        //     //Kiem tra va cham voi tuong khi di chuyen
+        //     //List<Wall> walls = gameModel.getEntitiesOfType(Wall.class);
+        //     if (collisionController.checkCollisionWithStatic(player1,this.walls)){
+        //         player1.undoMove();
+        //     }
+        //     //Kiem Tra va cham voi nuoc
+        //    // List<Water> waters = gameModel.getEntitiesOfType(Water.class);
+        //     if (collisionController.checkCollisionWithStatic(player1,this.waters)){
+        //         player1.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED - GameConstants.DEAFAULT_PLAYER_SPEED*0.5f);
+        //     }else {
+        //         player1.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED);
+        //     }
+        //     // Handle shooting/actions for player 1
+        //     if (inputController.isPlayerShooting(0)) {
+        //         // TODO: Implement player1.shoot() or similar in Player/GameModel
+        //         System.out.println("Player 1 trying to shoot (implementation needed)");
+        //     }
+        //     if (inputController.isPlayerAction(0)) {
+        //         // TODO: Implement player1 action
+        //         System.out.println("Player 1 trying to perform action (implementation needed)");
+        //     }
+        // }
     }
     // Helper method to handle movement logic based on input
     private void handlePlayerMovement(IMovable player, IInputController input, int playerIndex) {
