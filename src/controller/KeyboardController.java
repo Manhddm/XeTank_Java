@@ -30,36 +30,20 @@ public class KeyboardController implements IInputController, KeyListener {
         return directionYP2;
     }
 
-    private void updateDirection(){
-        if(upP1){
-            directionYP1 = 1;
-        }else if(downP1){
-            directionYP1 = -1;
-        }
-        if(leftP1){
-            directionXP1 = -1;
-        }
-        else if(rightP1){
-            directionXP1 = 1;
-        }
 
-        if(upP2){
-            directionYP2 = 1;
-        }
-        else if(downP2){
-            directionYP2 = -1;
-        }
-        if(leftP2){
-            directionXP2 = -1;
-        }
-        else if(rightP2){
-            directionXP2 = 1;
-        }
-
-    }
     @Override
     public void initialize() {
-
+        upP1 = false;
+        downP1 = false;
+        leftP1 = false;
+        rightP1 = false;
+        shiftP1 = false;
+        shootP1 = false;
+        upP2 = false;
+        downP2 = false;
+        leftP2 = false;
+        rightP2 = false;
+        shootP2 = false;
     }
 
     @Override
@@ -82,7 +66,10 @@ public class KeyboardController implements IInputController, KeyListener {
 
     @Override
     public boolean isPlayerShooting(int playerIndex) {
-        return false;
+        if (playerIndex == 0) {
+            return shootP1;
+        }
+        return shootP2;
     }
 
     @Override
@@ -125,7 +112,8 @@ public class KeyboardController implements IInputController, KeyListener {
             case KeyEvent.VK_S :downP1 = false; break;
             case KeyEvent.VK_A :leftP1 = false; break;
             case KeyEvent.VK_D :rightP1 = false; break;
-            case KeyEvent.VK_J: shootP1 = false; break;
+            case KeyEvent.VK_J: shootP1 = false;
+                System.out.println("het ban roi"); break;
 
             case KeyEvent.VK_UP :upP2 = false; break;
             case KeyEvent.VK_DOWN :downP2 = false; break;
@@ -134,6 +122,15 @@ public class KeyboardController implements IInputController, KeyListener {
             case KeyEvent.VK_NUMPAD1:shootP2 = false; break;
         }
     }
+
+    public void setShootP2(boolean shootP2) {
+        this.shootP2 = shootP2;
+    }
+
+    public void setShootP1(boolean shootP1) {
+        this.shootP1 = shootP1;
+    }
+
     public boolean isUpP1Pressed() { return upP1; }
     public boolean isDownP1Pressed() { return downP1; }
     public boolean isLeftP1Pressed() { return leftP1; }

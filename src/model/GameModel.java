@@ -35,14 +35,11 @@ public class GameModel implements IGameModel {
         allEntities.clear(); // Xóa các thực thể cũ trước khi khởi tạo lại
 
         // --- Khởi tạo người chơi ---
-        player1 = new Player("Blue", 40, 40, defaultPlayerSpeed); // Vị trí và tốc độ ban đầu P1
+        player1 = new Player("Blue", 40, 40, defaultPlayerSpeed,3); // Vị trí và tốc độ ban đầu P1
         player2 = new Player("Red", GameConstants.GAME_SCREEN_WIDTH - 100 - (GameConstants.TILE_SIZE * 2), // Gần góc phải
-                GameConstants.GAME_SCREEN_HEIGHT - 100 - (GameConstants.TILE_SIZE * 2), defaultPlayerSpeed); // Vị trí và tốc độ ban đầu P2
+                GameConstants.GAME_SCREEN_HEIGHT - 100 - (GameConstants.TILE_SIZE * 2), defaultPlayerSpeed, 1); // Vị trí và tốc độ ban đầu P2
 
-        // --- Tải ảnh cho người chơi (Cách tốt hơn: dùng ClassLoader) ---
-        // Lưu ý: Đường dẫn tuyệt đối như "D:/..." rất không linh hoạt.
-        // Nên đặt ảnh vào thư mục `res` trong project và đọc bằng ClassLoader.
-        // Ví dụ cấu trúc: src/..., res/player/BlueTank.png
+
         BufferedImage p1Image = sprites.player1Right; // Đường dẫn tương đối từ thư mục resources
         if (p1Image != null) {
             player1.setImage(p1Image);
@@ -51,7 +48,7 @@ public class GameModel implements IGameModel {
             System.err.println("Failed to load Player 1 image.");
         }
 
-        BufferedImage p2Image = sprites.player2Right;
+        BufferedImage p2Image = sprites.player2Left;
         if (p2Image != null) {
             player2.setImage(p2Image);
             System.out.println("Player 2 image loaded.");
@@ -110,10 +107,10 @@ public class GameModel implements IGameModel {
     @Override
     public void update() {
         // Tạo bản sao để tránh ConcurrentModificationException khi thêm/xóa thực thể trong lúc lặp
-        List<IEntity> entitiesToUpdate = new ArrayList<>(allEntities);
-        for (IEntity entity : entitiesToUpdate) {
-            entity.update(); // Gọi update cho từng thực thể (hiện tại chủ yếu là Player)
-        }
+       List<Bullet> bullets = getEntitiesOfType(Bullet.class);
+       for (Bullet bullet : bullets) {
+           bullet.move();
+       }
         // TODO: Thêm logic cập nhật khác nếu cần (ví dụ: tạo kẻ địch, item,...)
     }
 
@@ -128,13 +125,13 @@ public class GameModel implements IGameModel {
     }
 
     // Sử dụng kiểu generic để đảm bảo an toàn kiểu
-    private <T extends IEntity> void addEntity(T entity) {
+    public  <T extends IEntity> void addEntity(T entity) {
         if (entity != null) {
             allEntities.add(entity);
         }
     }
 
-    private <T extends IEntity> void removeEntity(T entity) {
+    public <T extends IEntity> void removeEntity(T entity) {
         if (entity != null) {
             allEntities.remove(entity);
         }
@@ -142,9 +139,8 @@ public class GameModel implements IGameModel {
 
     @Override
     public List<? extends IEntity> getAllEntities() {
-        // Trả về một bản sao không thể thay đổi hoặc một bản sao mới để bảo vệ danh sách gốc
+
         return allEntities;
-        // Hoặc return Collections.unmodifiableList(allEntities);
     }
 
     @Override

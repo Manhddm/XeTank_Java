@@ -14,16 +14,47 @@ public class Player extends MovableEntityBase {
     private final static int maxHealth = 100;
     private int damage;
     private String name;
-    public boolean faceRight, faceLeft, faceUp, faceDown;
-    public Player(String name, float x, float y, float speed ) {
+    public boolean faceRight = false, faceLeft= false, faceUp = false, faceDown = false;
+    public Player(String name, float x, float y, float speed, int face ) {
         this.name = name;
         this.x = x;
         this.y = y;
         this.hitBox = new Rectangle((int)x,(int)y, GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
         this.health = maxHealth;
         this.speed = speed;
+        setFace(face);
     }
-
+    public int getFace(){
+        if (faceRight){
+            return 3;
+        }
+        else if (faceLeft){
+            return 1;
+        }
+        else if (faceUp){
+            return 2;
+        }
+        return 4;
+    }
+    public void setFace(int face) {
+        switch (face) {
+            case 1:
+                this.faceLeft = true;
+                faceRight =faceUp = faceDown = false;
+                break;
+            case 2:
+                this.faceUp = true;
+                faceRight = faceLeft =faceDown=false;
+                break;
+            case 3:
+                this.faceRight = true;
+                faceLeft = faceUp = faceDown = false;
+                break;
+            case 4:
+                this.faceDown = true;
+                faceLeft = faceUp = faceRight = false;
+        }
+    }
     public int getDamage() {
         return damage;
     }
@@ -105,11 +136,6 @@ public class Player extends MovableEntityBase {
     @Override
     public void draw(Graphics g) {
 
-    }
-
-    @Override
-    public void setImage(BufferedImage image) {
-        this.image = image;
     }
 
     @Override

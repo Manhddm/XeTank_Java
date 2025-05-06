@@ -4,9 +4,7 @@ import controller.interfaces.IGameController;
 import controller.interfaces.IInputController; // Import IInputController
 import core.Sprites;
 import model.GameModel;
-import model.entities.Grass;
-import model.entities.Wall;
-import model.entities.Water;
+import model.entities.*;
 import model.interfaces.IGameModel;
 import model.interfaces.IEntity; // Import IEntity
 import model.interfaces.IMovable; // Import IMovable
@@ -23,10 +21,10 @@ import java.util.List;
 
 
 public class GameController implements IGameController, ActionListener { // Implement ActionListener for Timer
-    private IGameModel gameModel;
+    private GameModel gameModel;
     private CollisionController collisionController;
     private GamePanel gamePanel ;
-    private IInputController inputController;
+    private KeyboardController inputController;
     private Sprites sprites = new Sprites();
     private Timer gameTimer; // Timer for the game loop
     private boolean running = false;
@@ -34,6 +32,7 @@ public class GameController implements IGameController, ActionListener { // Impl
     private List<Wall> walls;
     private List<Water> waters ;
     private List<Grass> grasses;
+    private List<Bullet> bullets;
 
     // Constructor (optional, could do setup in initialize)
     public GameController() {
@@ -51,7 +50,7 @@ public class GameController implements IGameController, ActionListener { // Impl
     }
 
     @Override
-    public void setModel(IGameModel model) {
+    public void setModel(GameModel model) {
         this.gameModel = model;
         this.walls = gameModel.getEntitiesOfType(Wall.class);
         this.waters = gameModel.getEntitiesOfType(Water.class);
@@ -61,7 +60,7 @@ public class GameController implements IGameController, ActionListener { // Impl
 
 
     // Method to set the input controller
-    public void setInputController(IInputController inputController) {
+    public void setInputController(KeyboardController inputController) {
         this.inputController = inputController;
     }
 
@@ -123,20 +122,18 @@ public class GameController implements IGameController, ActionListener { // Impl
         if (!running || gameModel == null || inputController == null) {
             return; // Don't process if not running or essential components are missing
         }
-
         // 1. Process Input
         inputController.processInput(); // Allow input controller to update its state if needed
 
         // --- Player 1 Input ---
         IEntity player1Entity = gameModel.getPlayer(0); // Assuming index 0 for player 1
         if (player1Entity instanceof IMovable) { // Check if the entity is movable
-            IMovable player1 = (IMovable) player1Entity;
-            handlePlayerMovement(player1, inputController, 0); // Pass player index 0
-            handleCollision(player1);
+            Player player1 = (Player) player1Entity;
+            handlePlayerMovement(player1, 0); // Pass player index 0
+            handlePlayerCollision(player1);
             // Handle shooting/actions for player 1
             if (inputController.isPlayerShooting(0)) {
-                // TODO: Implement player1.shoot() or similar in Player/GameModel
-                System.out.println("Player 1 trying to shoot (implementation needed)");
+                handelPlayerShooting(player1);
             }
             if (inputController.isPlayerAction(0)) {
                 // TODO: Implement player1 action
@@ -148,17 +145,12 @@ public class GameController implements IGameController, ActionListener { // Impl
         // --- Player 2 Input ---
         IEntity player2Entity = gameModel.getPlayer(1); // Assuming index 1 for player 2
         if (player2Entity instanceof IMovable) { // Check if the entity is movable
-            IMovable player2 = (IMovable) player2Entity;
-            handlePlayerMovement(player2, inputController, 1); // Pass player index 1
-            handleCollision(player2);
+            Player player2 = (Player) player2Entity;
+            handlePlayerMovement(player2, 1); // Pass player index 1
+            handlePlayerCollision(player2);
             // Handle shooting/actions for player 2
             if (inputController.isPlayerShooting(1)) {
-                // TODO: Implement player2.shoot() or similar in Player/GameModel
-                System.out.println("Player 2 trying to shoot (implementation needed)");
-            }
-            if (inputController.isPlayerAction(1)) {
-                // TODO: Implement player2 action
-                System.out.println("Player 2 trying to perform action (implementation needed)");
+                handelPlayerShooting(player2);
             }
         }
 
@@ -182,11 +174,23 @@ public class GameController implements IGameController, ActionListener { // Impl
         // If GameView was fully implemented, you might call:
         // if (gameView != null) gameView.render();
     }
-    void handelPlayerShooting(IMovable player) {
+    void handelPlayerShooting(Player player) {
 
+        if (inputController.isPlayerShooting(0)){
+            System.out.println("Player 1 shoot");
+            Bullet bullet =  new Bullet((int) player.getX(), (int) player.getY(), 0, player.getFace());
+            bullet.setImage(sprites.bullet);
+            bullet.setSpeed(7f);
+            gameModel.addEntity(bullet);
+            inputController.setShootP1(false);
+        }
+        else {
+            inputController.setShootP2(false);
+            System.out.println("Player 2 shoot");
+        }
     }
     //Check Collision
-    void handleCollision(IEntity player) {
+    void handlePlayerCollision(IEntity player) {
         IMovable playerX = (IMovable) player;
         //Kiem tra va cham voi tuong khi di chuyen
         //List<Wall> walls = gameModel.getEntitiesOfType(Wall.class);
@@ -212,48 +216,52 @@ public class GameController implements IGameController, ActionListener { // Impl
         }
     }
     // Helper method to handle movement logic based on input
-    private void handlePlayerMovement(IMovable player, IInputController input, int playerIndex) {
-
-        KeyboardController kbController = (KeyboardController) input; // Cast (be careful with this)
-
+    private void handlePlayerMovement(IMovable playerX, int playerIndex) {
+        Player player = (Player) playerX;
         float speed = player.getSpeed() > 0 ? player.getSpeed() : 3.0f; // Default speed if not set
         float dx = 0;
         float dy = 0;
-
-
         if (playerIndex == 0) { // Player 1 (WASD)
-            if (kbController.isUpP1Pressed()) {
+            if (inputController.isUpP1Pressed()) {
                 dy -= speed;
                 player.setImage(sprites.player1Up);
+                player.setFace(2);
             }
-            else if (kbController.isDownP1Pressed()) {
+            else if (inputController.isDownP1Pressed()) {
                 dy += speed;
                 player.setImage(sprites.player1Down);
+                player.setFace(4);
             }
-            else  if (kbController.isLeftP1Pressed()) {
+            else  if (inputController.isLeftP1Pressed()) {
                 dx -= speed;
                 player.setImage(sprites.player1Left);
+                player.setFace(1);
             }
-            else if (kbController.isRightP1Pressed()) {
+            else if (inputController.isRightP1Pressed()) {
                 dx += speed;
                 player.setImage(sprites.player1Right);
+                player.setFace(3);
             }
         } else if (playerIndex == 1) { // Player 2 (Arrow Keys)
-            if (kbController.isUpP2Pressed()) {
+            if (inputController.isUpP2Pressed()) {
                 dy -= speed;
                 player.setImage(sprites.player2Up);
+                player.setFace(2);
             }
-            else if (kbController.isDownP2Pressed()) {
+            else if (inputController.isDownP2Pressed()) {
                 dy += speed;
                 player.setImage(sprites.player2Down);
+                player.setFace(4);
             }
-            else if (kbController.isLeftP2Pressed()) {
+            else if (inputController.isLeftP2Pressed()) {
                 dx -= speed;
                 player.setImage(sprites.player2Left);
+                player.setFace(1);
             }
-            else if (kbController.isRightP2Pressed()) {
+            else if (inputController.isRightP2Pressed()) {
                 dx += speed;
                 player.setImage(sprites.player2Right);
+                player.setFace(3);
             }
         }
 
@@ -273,14 +281,7 @@ public class GameController implements IGameController, ActionListener { // Impl
     public boolean isRunning() {
         return running;
     }
-    private BufferedImage FacingPlayer(BufferedImage image,IEntity player, int f) {
-        if (image == null) {
-            return null;
-        }
-        int with = image.getWidth();
-        int height = image.getHeight();
-        return null;
-    }
+
 
 
 }

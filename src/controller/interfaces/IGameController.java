@@ -1,6 +1,6 @@
 package controller.interfaces;
 
-import model.interfaces.IGameModel;
+import model.GameModel;
 import view.interfaces.IGameView;
 
 
@@ -9,7 +9,7 @@ public interface IGameController {
     void initialize();
     
 
-    void setModel(IGameModel model);
+    void setModel(GameModel model);
 
 
     void startGame();

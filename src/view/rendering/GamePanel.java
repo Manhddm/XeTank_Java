@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
+import model.entities.Bullet;
 import model.entities.Grass;
 import model.entities.Player;
 import model.entities.Wall; // Import Wall
@@ -13,6 +14,7 @@ import core.GameConstants;
 import model.interfaces.IGameModel;
 import model.map.GameMap;
 import view.interfaces.IGameView;
+import view.renderers.BulletRenderer;
 import view.renderers.GrassRenderer;
 import view.renderers.PlayerRenderer;
 import view.renderers.WallRenderer; // Import WallRenderer (nếu có)
@@ -25,8 +27,7 @@ public class GamePanel extends JPanel implements IGameView {
     // Các renderer cụ thể (có thể quản lý bằng cách khác, ví dụ Map)
     private final GameMap gameMap = new GameMap();
     private PlayerRenderer playerRenderer;
-    private WallRenderer wallRenderer; // Thêm WallRenderer (nếu có)
-    private GrassRenderer grassRenderer;
+    private BulletRenderer bulletRenderer;
     // Thêm các renderer khác nếu cần (Water, Grass, Bullet...)
 
     public GamePanel(IGameModel gameModel) {
@@ -34,8 +35,7 @@ public class GamePanel extends JPanel implements IGameView {
 
         // Khởi tạo các renderer
         this.playerRenderer = new PlayerRenderer();
-        this.wallRenderer = new WallRenderer(); // Khởi tạo WallRenderer
-        this.grassRenderer = new GrassRenderer();
+        this.bulletRenderer = new BulletRenderer();
         // Khởi tạo các renderer khác...
 
         setPreferredSize(new Dimension(GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT));
@@ -72,16 +72,21 @@ public class GamePanel extends JPanel implements IGameView {
             // nếu danh sách bị thay đổi trong lúc vẽ (ví dụ: đạn được tạo ra)
             //List<? extends IEntity> entitiesToRender = new ArrayList<>(currentEntities);
             List<Player> players = gameModel.getEntitiesOfType(Player.class);
-            for (IEntity entity : players) {
+            List<Bullet> bullets = gameModel.getEntitiesOfType(Bullet.class);
+            List<IEntity>  playerBullets = new ArrayList<>();
+            playerBullets.addAll(players);
+            playerBullets.addAll(bullets);
+            for (IEntity entity : playerBullets) {
                 if (entity == null) continue; // Bỏ qua nếu entity bị null
 
                 // Xác định loại entity và gọi renderer tương ứng
                 if (entity instanceof Player) {
                     if (playerRenderer != null) {
                         playerRenderer.render(g2d, entity);
-                    } else {
-                        entity.draw(g2d); // Vẽ mặc định nếu renderer null
                     }
+                }
+                else if (entity instanceof Bullet) {
+                        bulletRenderer.render(g2d, entity);
                 }
                 // else if (entity instanceof Water) { ... }
                 // else if (entity instanceof Grass) { ... }

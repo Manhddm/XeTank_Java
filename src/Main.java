@@ -25,7 +25,7 @@ public class Main {
 
                 // --- 1. Khởi tạo Model ---
                 System.out.println("Khởi tạo Model...");
-                IGameModel gameModel = new GameModel();
+                GameModel gameModel = new GameModel();
                 try {
                     gameModel.initialize();
                     System.out.println("GameModel đã khởi tạo thành công.");
@@ -48,7 +48,7 @@ public class Main {
                 // --- 3. Khởi tạo Controllers ---
                 System.out.println("Khởi tạo Controllers (Input, Collision, Game)...");
                 // Tạo KeyboardController để xử lý input
-                IInputController keyboardController = new KeyboardController();
+                KeyboardController keyboardController = new KeyboardController();
                 keyboardController.initialize(); // Reset trạng thái phím
                 System.out.println("KeyboardController đã được tạo và khởi tạo.");
 
