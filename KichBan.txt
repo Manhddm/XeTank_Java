@@ -1,0 +1,82 @@
+Kịch Bản Game: Xe Tăng Đại Chiến
+
+Tổng Quan Game
+
+"Xe Tăng Đại Chiến" là một trò chơi đối kháng giữa hai người chơi, mỗi người điều khiển một chiếc xe tăng. Mục tiêu là tiêu diệt xe tăng của đối phương bằng cách bắn đạn và tận dụng các yếu tố môi trường trên bản đồ.
+
+Các Đối Tượng Trong Game
+
+Tất cả các đối tượng trong game sẽ có kích thước mặc định là 32×32 pixel.
+
+Người Chơi (Player):
+Sẽ có 2 người chơi: Player 1 (Xe Tăng Xanh) điều khiển xe tăng màu xanh và Player 2 (Xe Tăng Đỏ) điều khiển xe tăng màu đỏ.
+Đặc điểm chung của Người Chơi bao gồm:
+Vị trí: Tọa độ (x, y) trên bản đồ.
+Hình ảnh: Hình ảnh đại diện cho xe tăng.
+Là vật rắn?: Có (không thể đi xuyên qua các vật rắn khác).
+Tốc độ di chuyển: Xác định tốc độ xe tăng có thể di chuyển.
+Máu: Lượng máu tối đa là 100. Khi máu về 0, xe tăng bị phá hủy.
+
+Đạn (Bullet):
+Đặc điểm chung của Đạn bao gồm:
+Vị trí: Tọa độ (x, y) trên bản đồ.
+Hình ảnh: Hình ảnh đại diện cho viên đạn.
+Là vật rắn?: Có (có thể va chạm với các đối tượng khác).
+Tốc độ di chuyển: Xác định tốc độ đạn bay.
+
+Địa Hình:
+
+Tường (Wall):
+Vị trí: Tọa độ (x, y) trên bản đồ.
+Hình ảnh: Hình ảnh đại diện cho tường.
+Là vật rắn?: Có (không thể đi xuyên qua hoặc bắn xuyên qua).
+
+Cỏ (Grass):
+Vị trí: Tọa độ (x, y) trên bản đồ.
+Hình ảnh: Hình ảnh đại diện cho cỏ.
+Là vật rắn?: Không (có thể đi xuyên qua).
+
+Nước (Water):
+Vị trí: Tọa độ (x, y) trên bản đồ.
+Hình ảnh: Hình ảnh đại diện cho nước.
+Là vật rắn?: Không (có thể đi xuyên qua).
+
+Đất (Floor/Ground):
+Vị trí: Tọa độ (x, y) trên bản đồ.
+Hình ảnh: Hình ảnh đại diện cho đất.
+Là vật rắn?: Không (là bề mặt di chuyển cơ bản).
+
+Điều Khiển Người Chơi
+
+Xe Tăng Xanh (Player 1):
+Di chuyển lên bằng phím W, di chuyển xuống bằng phím S, di chuyển sang trái bằng phím A, di chuyển sang phải bằng phím D. Bắn đạn bằng phím J.
+
+Xe Tăng Đỏ (Player 2):
+Di chuyển lên bằng phím mũi tên Lên, di chuyển xuống bằng phím mũi tên Xuống, di chuyển sang trái bằng phím mũi tên Trái, di chuyển sang phải bằng phím mũi tên Phải. Bắn đạn bằng phím Num_1 (phím số 1 bên Numpad).
+
+Tương Tác Giữa Các Đối Tượng
+
+Xe Tăng và Vật Rắn (Tường):
+Xe tăng không thể di chuyển xuyên qua tường. Đạn bắn trúng tường sẽ bị chặn lại (biến mất hoặc nổ).
+
+Xe Tăng và Cỏ:
+Khi xe tăng đi vào khu vực cỏ, xe tăng sẽ trở nên tàng hình (không hiển thị trên màn hình đối với đối phương). Người chơi vẫn thấy xe tăng của mình.
+
+Xe Tăng và Nước:
+Khi xe tăng đi vào khu vực nước, tốc độ di chuyển của xe tăng sẽ bị giảm đi.
+
+Xe Tăng và Đất:
+Đất là bề mặt di chuyển bình thường, không có tương tác đặc biệt.
+
+Đạn và Xe Tăng:
+Khi đạn bắn trúng xe tăng đối phương, xe tăng đó sẽ bị trừ máu.
+
+Đạn và Các Vật Thể Khác:
+Đạn sẽ biến mất khi va chạm với tường. Đạn có thể bay xuyên qua cỏ và nước (trừ khi có thiết kế khác).
+
+Gợi Ý Cấu Trúc Lớp (Dựa trên kịch bản gốc)
+
+Để triển khai game, có thể xem xét các lớp (class) cơ sở sau trong lập trình: Player.java (hoặc tên tương ứng với ngôn ngữ lập trình bạn chọn), Bullet.java, Wall.java, Grass.java, Water.java, Floor.java.
+Mỗi lớp này sẽ chứa các thuộc tính (vị trí, hình ảnh, tốc độ, máu, v.v.) và phương thức (di chuyển, bắn, xử lý va chạm) tương ứng với đối tượng đó.
+
+Hy vọng kịch bản được viết lại này sẽ giúp bạn hình dung rõ ràng hơn về trò chơi của mình!

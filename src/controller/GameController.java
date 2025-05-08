@@ -5,6 +5,7 @@ import controller.interfaces.IInputController; // Import IInputController
 import core.GameConstants;
 import core.Sprites;
 import model.GameModel;
+import model.base.Direction;
 import model.entities.*;
 import model.interfaces.IGameModel;
 import model.interfaces.IEntity; // Import IEntity
@@ -52,9 +53,9 @@ public class GameController implements IGameController, ActionListener { // Impl
     @Override
     public void setModel(GameModel model) {
         this.gameModel = model;
-        this.walls = gameModel.getEntitiesOfType(Wall.class);
-        this.waters = gameModel.getEntitiesOfType(Water.class);
-        this.grasses = gameModel.getEntitiesOfType(Grass.class);
+        this.walls = gameModel.getStaticEntitiesOfType(Wall.class);
+        this.waters = gameModel.getStaticEntitiesOfType(Water.class);
+        this.grasses = gameModel.getStaticEntitiesOfType(Grass.class);
     }
 
 
@@ -177,39 +178,12 @@ public class GameController implements IGameController, ActionListener { // Impl
     void handelPlayerShooting(Player player) {
         int playerIndex =   player == gameModel.getPlayer(0)?0:1;
 
-        if (inputController.isPlayerShooting(playerIndex) && player.canShoot()) {
-            // Tính toán vị trí chính xác cho đạn dựa vào hướng của xe tăng
-            float bulletX = player.getX();
-            float bulletY = player.getY();
-            int face = player.getFace();
+        if (inputController.isPlayerShooting(playerIndex)) {
 
-            // Điều chỉnh vị trí xuất hiện của đạn theo hướng
-            switch (face) {
-                case 1: // LEFT
-                    bulletX = player.getX() - 5;
-                    bulletY = player.getY() + GameConstants.TILE_SIZE / 2 - 3;
-                    break;
-                case 2: // UP
-                    bulletX = player.getX() + GameConstants.TILE_SIZE / 2 - 3;
-                    bulletY = player.getY() - 5;
-                    break;
-                case 3: // RIGHT
-                    bulletX = player.getX() + GameConstants.TILE_SIZE;
-                    bulletY = player.getY() + GameConstants.TILE_SIZE / 2 - 3;
-                    break;
-                case 4: // DOWN
-                    bulletX = player.getX() + GameConstants.TILE_SIZE / 2 - 3;
-                    bulletY = player.getY() + GameConstants.TILE_SIZE;
-                    break;
-            }
-
-            Bullet bullet = new Bullet((int) bulletX, (int) bulletY, playerIndex, face);
+            Bullet bullet = player.shoot();
             bullet.setImage(sprites.bullet);
             bullet.setSpeed(7f);
-            gameModel.addEntity(bullet);
-
-            player.updateLastShotTime();
-
+            gameModel.addBullet(bullet);
             // Reset trạng thái bắn ngay lập tức nếu muốn (hoặc giữ lại để kiểm tra nút giữ)
             if (playerIndex == 0) {
                 inputController.setShootP1(false);
@@ -237,7 +211,6 @@ public class GameController implements IGameController, ActionListener { // Impl
         }
         //kiem tra va cham voi co
         if (collisionController.checkCollisionWithStatic(playerX,this.grasses)){
-            //playerX.tangHinh();
             playerX.setHidden(false);
         } else {
             playerX.setHidden(true);
@@ -253,61 +226,52 @@ public class GameController implements IGameController, ActionListener { // Impl
     private void handlePlayerMovement(IMovable playerX, int playerIndex) {
         Player player = (Player) playerX;
         float speed = player.getSpeed() > 0 ? player.getSpeed() : 3.0f; // Default speed if not set
-        float dx = 0;
-        float dy = 0;
+        player.storePreviousPosition();
         if (playerIndex == 0) { // Player 1 (WASD)
             if (inputController.isUpP1Pressed()) {
-                dy -= speed;
+                player.move(Direction.UP);
                 player.setImage(sprites.player1Up);
                 player.setFace(2);
             }
             else if (inputController.isDownP1Pressed()) {
-                dy += speed;
+                player.move(Direction.DOWN);
                 player.setImage(sprites.player1Down);
                 player.setFace(4);
             }
             else  if (inputController.isLeftP1Pressed()) {
-                dx -= speed;
+                player.move(Direction.LEFT);
                 player.setImage(sprites.player1Left);
                 player.setFace(1);
             }
             else if (inputController.isRightP1Pressed()) {
-                dx += speed;
+                player.move(Direction.RIGHT);
                 player.setImage(sprites.player1Right);
                 player.setFace(3);
             }
         } else if (playerIndex == 1) { // Player 2 (Arrow Keys)
             if (inputController.isUpP2Pressed()) {
-                dy -= speed;
+                player.move(Direction.UP);
                 player.setImage(sprites.player2Up);
                 player.setFace(2);
             }
             else if (inputController.isDownP2Pressed()) {
-                dy += speed;
+                player.move(Direction.DOWN);
                 player.setImage(sprites.player2Down);
                 player.setFace(4);
             }
             else if (inputController.isLeftP2Pressed()) {
-                dx -= speed;
+                player.move(Direction.LEFT);
                 player.setImage(sprites.player2Left);
                 player.setFace(1);
             }
             else if (inputController.isRightP2Pressed()) {
-                dx += speed;
+                player.move(Direction.RIGHT);
                 player.setImage(sprites.player2Right);
                 player.setFace(3);
             }
         }
 
-        // Apply movement if there is any change
-        if (dx != 0 || dy != 0) {
-            player.storePreviousPosition();
-            player.setX(player.getX() + dx);
-            player.setY(player.getY() + dy);
-            player.update();
-            //System.out.println("Player " + (playerIndex + 1) + " moved to (" + player.getX() + ", " + player.getY() + ")"); // Debug
-
-        }
+        player.update();
     }
 
 

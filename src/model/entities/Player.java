@@ -1,5 +1,7 @@
 package model.entities;
+
 import core.GameConstants;
+import model.base.Direction;
 import model.base.MovableEntityBase;
 
 
@@ -13,52 +15,51 @@ public class Player extends MovableEntityBase {
     private int health;
     private final static int maxHealth = 100;
     private int damage;
+    private Direction direction;
     private long lastShootTime = 0;
-    private static final long SHOOT_COOLDOWN = 1000;
+    private int shootCooldown;
+    private int currentCooldown;
     private String name;
-    public boolean faceRight = false, faceLeft= false, faceUp = false, faceDown = false;
-    public Player(String name, float x, float y, float speed, int face ) {
+    public boolean faceRight = false, faceLeft = false, faceUp = false, faceDown = false;
+
+    public Player(String name, float x, float y, float speed, Direction direction) {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.hitBox = new Rectangle((int)x,(int)y, GameConstants.TILE_SIZE,GameConstants.TILE_SIZE);
+        this.hitBox = new Rectangle((int) x, (int) y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
         this.health = maxHealth;
         this.speed = speed;
-        setFace(face);
-    }
-    public boolean canShoot() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastShootTime >= SHOOT_COOLDOWN) {
-            lastShootTime = currentTime;
-            return true;
-        }
-        return false;
+        this.direction = direction;
     }
 
     public void updateLastShotTime() {
         lastShootTime = System.currentTimeMillis();
     }
-    public int getFace(){
-        if (faceRight){
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public int getFace() {
+        if (faceRight) {
             return 3;
-        }
-        else if (faceLeft){
+        } else if (faceLeft) {
             return 1;
-        }
-        else if (faceUp){
+        } else if (faceUp) {
             return 2;
         }
         return 4;
     }
+
     public void setFace(int face) {
         switch (face) {
             case 1:
                 this.faceLeft = true;
-                faceRight =faceUp = faceDown = false;
+                faceRight = faceUp = faceDown = false;
                 break;
             case 2:
                 this.faceUp = true;
-                faceRight = faceLeft =faceDown=false;
+                faceRight = faceLeft = faceDown = false;
                 break;
             case 3:
                 this.faceRight = true;
@@ -69,6 +70,7 @@ public class Player extends MovableEntityBase {
                 faceLeft = faceUp = faceRight = false;
         }
     }
+
     public int getDamage() {
         return damage;
     }
@@ -94,7 +96,26 @@ public class Player extends MovableEntityBase {
     }
 
     @Override
-    public void move() {}
+    public void move(Direction direction) {
+        switch (direction) {
+            case UP:
+                y -= speed;
+                this.direction = Direction.DOWN;
+                break;
+            case DOWN:
+                y += speed;
+                this.direction = Direction.UP;
+                break;
+            case LEFT:
+                x -= speed;
+                this.direction = Direction.LEFT;
+                break;
+            case RIGHT:
+                x += speed;
+                this.direction = Direction.RIGHT;
+                break;
+        }
+    }
 
 
     @Override
@@ -140,7 +161,7 @@ public class Player extends MovableEntityBase {
 
     @Override
     public Rectangle getHitBox() {
-        return hitBox != null ? hitBox.getBounds() : new Rectangle((int)x, (int)y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+        return hitBox != null ? hitBox.getBounds() : new Rectangle((int) x, (int) y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
     }
 
     @Override
@@ -148,16 +169,47 @@ public class Player extends MovableEntityBase {
 
     }
 
-
-
     @Override
     public void update() {
-        hitBox.x = (int)this.x;
-        hitBox.y = (int)this.y;
+        hitBox.x = (int) this.x;
+        hitBox.y = (int) this.y;
     }
 
     @Override
     public boolean isSolid() {
         return true;
+    }
+
+    public Bullet shoot() {
+        if (currentCooldown <= 0) {
+            currentCooldown = shootCooldown;
+            int bulletX = (int) this.x;
+            int bulletY = (int) this.y;
+
+            switch (this.direction) {
+                case UP: 
+                    bulletX = (int) this.x + GameConstants.TILE_SIZE / 2 - 3;
+                    bulletY = (int) this.y + GameConstants.TILE_SIZE;
+                    System.out.println("dan di len");
+                    break;  
+                case DOWN: 
+                    bulletX = (int) this.x + GameConstants.TILE_SIZE / 2 - 3;
+                    bulletY = (int) this.y - GameConstants.TILE_SIZE;
+                    System.out.println("dan di xuong");
+                    break;
+                case RIGHT: 
+                    bulletX = (int) this.x + GameConstants.TILE_SIZE;
+                    bulletY = (int) this.y + GameConstants.TILE_SIZE / 2 - 3;
+                    System.out.println("dan di phai");
+                    break;
+                case LEFT: 
+                    bulletX = (int) this.x - 5;
+                    bulletY = (int) this.y + GameConstants.TILE_SIZE / 2 - 3;
+                    System.out.println("dan di trai");
+                    break;
+            }
+            return new Bullet(bulletX, bulletY, name.equals("Blue") ? 0 : 1,this.direction);
+        }
+        return null;
     }
 }

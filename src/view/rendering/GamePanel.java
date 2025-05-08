@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
+import model.GameModel;
 import model.entities.Bullet;
 import model.entities.Grass;
 import model.entities.Player;
@@ -22,7 +23,7 @@ import view.renderers.WallRenderer; // Import WallRenderer (nếu có)
 // Bỏ implements ActionListener
 public class GamePanel extends JPanel implements IGameView {
 
-    private IGameModel gameModel;
+    private GameModel gameModel;
 
     // Các renderer cụ thể (có thể quản lý bằng cách khác, ví dụ Map)
     private final GameMap gameMap = new GameMap();
@@ -30,7 +31,7 @@ public class GamePanel extends JPanel implements IGameView {
     private BulletRenderer bulletRenderer;
     // Thêm các renderer khác nếu cần (Water, Grass, Bullet...)
 
-    public GamePanel(IGameModel gameModel) {
+    public GamePanel(GameModel gameModel) {
         this.gameModel = gameModel;
 
         // Khởi tạo các renderer
@@ -64,15 +65,15 @@ public class GamePanel extends JPanel implements IGameView {
         }
 
         // Lấy danh sách thực thể hiện tại từ model
-        List<? extends IEntity> currentEntities = gameModel.getAllEntities();
+        List<? extends IEntity> currentEntities = gameModel.getStaticEntities();
 
         // Vẽ tất cả các thực thể từ model
         if (currentEntities != null) {
             // Tạo bản sao để tránh lỗi ConcurrentModificationException
             // nếu danh sách bị thay đổi trong lúc vẽ (ví dụ: đạn được tạo ra)
             //List<? extends IEntity> entitiesToRender = new ArrayList<>(currentEntities);
-            List<Player> players = gameModel.getEntitiesOfType(Player.class);
-            List<Bullet> bullets = gameModel.getEntitiesOfType(Bullet.class);
+            List<Player> players = new ArrayList<>(); players.add(gameModel.getPlayer(0)); players.add(gameModel.getPlayer(1));
+            List<Bullet> bullets = gameModel.getBullets();
             List<IEntity>  playerBullets = new ArrayList<>();
             playerBullets.addAll(players);
             playerBullets.addAll(bullets);

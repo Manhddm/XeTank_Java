@@ -28,7 +28,7 @@ public interface IGameModel {
      * Get all entities in the game
      * @return List of all entities
      */
-    List<? extends IEntity> getAllEntities();
+    List<? extends IEntity> getStaticEntities();
     
     /**
      * Get all entities of a specific type
@@ -36,7 +36,7 @@ public interface IGameModel {
      * @param entityClass Class of the entity type
      * @return List of entities of the specified type
      */
-    <T extends IEntity> List<T> getEntitiesOfType(Class<T> entityClass);
+    <T extends IEntity> List<T> getStaticEntitiesOfType(Class<T> entityClass);
     
     /**
      * Check if the game is over

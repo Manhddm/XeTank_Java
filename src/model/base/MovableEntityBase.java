@@ -1,7 +1,7 @@
 package model.base;
 
 import model.interfaces.IMovable;
-
+import model.base.Direction;
 public abstract class MovableEntityBase extends EntityBase implements IMovable {
     protected float speed;
     protected float prevX;
@@ -18,9 +18,7 @@ public abstract class MovableEntityBase extends EntityBase implements IMovable {
         return hidden;
     }
 
-    @Override
-    public void move() {
-
+    public void move(Direction direction) {
     }
 
     @Override
