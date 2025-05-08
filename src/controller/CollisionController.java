@@ -18,10 +18,7 @@ public class CollisionController implements ICollisionController {
     public boolean checkCollision(IEntity entity1, IEntity entity2) {
         if (entity1 == entity2) { return false; }
         if (entity1.isSolid() && entity2.isSolid()) {
-            if (entity1.getHitBox().intersects(entity2.getHitBox())) {
-                //System.out.println("Va Cham thang lon");
-                return true;
-            }
+            return entity1.getHitBox().intersects(entity2.getHitBox());
         }
         return false;
     }
@@ -29,7 +26,6 @@ public class CollisionController implements ICollisionController {
         Rectangle nextHitBox = entity.getHitBox();
         for (IEntity staticEntity : staticEntities) {
             if (staticEntity.isSolid() && nextHitBox.intersects(staticEntity.getHitBox())) {
-                //System.out.println("Va voi tuong roi");
                 return true;
             } else if (!staticEntity.isSolid() && nextHitBox.intersects(staticEntity.getHitBox())) {
                 return true;

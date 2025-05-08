@@ -12,13 +12,12 @@ import java.awt.image.BufferedImage;
  * Player entity representing a tank in the game
  */
 public class Player extends MovableEntityBase {
-    private int health;
-    private final static int maxHealth = 100;
+    private int lives;
+    private final static int maxLives = 100;
     private int damage;
     private Direction direction;
-    private long lastShootTime = 0;
-    private int shootCooldown;
-    private int currentCooldown;
+    private int shootCooldown = 20;
+    private int currentCooldown = 0;
     private String name;
     public boolean faceRight = false, faceLeft = false, faceUp = false, faceDown = false;
 
@@ -27,14 +26,11 @@ public class Player extends MovableEntityBase {
         this.x = x;
         this.y = y;
         this.hitBox = new Rectangle((int) x, (int) y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
-        this.health = maxHealth;
+        this.lives = maxLives;
         this.speed = speed;
         this.direction = direction;
     }
 
-    public void updateLastShotTime() {
-        lastShootTime = System.currentTimeMillis();
-    }
 
     public Direction getDirection() {
         return direction;
@@ -79,13 +75,7 @@ public class Player extends MovableEntityBase {
         this.damage = damage;
     }
 
-    public int getHealth() {
-        return health;
-    }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
 
     public String getName() {
         return name;
@@ -93,6 +83,14 @@ public class Player extends MovableEntityBase {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
     @Override
@@ -173,6 +171,7 @@ public class Player extends MovableEntityBase {
     public void update() {
         hitBox.x = (int) this.x;
         hitBox.y = (int) this.y;
+        if (currentCooldown>0) currentCooldown--;
     }
 
     @Override

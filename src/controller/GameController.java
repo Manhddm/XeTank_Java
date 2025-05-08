@@ -30,7 +30,7 @@ public class GameController implements IGameController, ActionListener { // Impl
     private Sprites sprites = new Sprites();
     private Timer gameTimer; // Timer for the game loop
     private boolean running = false;
-    private final int GAME_TICK_DELAY = 1000 / 80; // Approx 60 FPS
+    private final int GAME_TICK_DELAY = 1000 / 120; // Approx 60 FPS
     private List<Wall> walls;
     private List<Water> waters ;
     private List<Grass> grasses;
@@ -145,7 +145,7 @@ public class GameController implements IGameController, ActionListener { // Impl
 
         // --- Player 2 Input ---
         IEntity player2Entity = gameModel.getPlayer(1); // Assuming index 1 for player 2
-        if (player2Entity instanceof IMovable) { // Check if the entity is movable
+        if (player2Entity != null) { // Check if the entity is movable
             Player player2 = (Player) player2Entity;
             handlePlayerMovement(player2, 1); // Pass player index 1
             handlePlayerCollision(player2);
@@ -181,17 +181,19 @@ public class GameController implements IGameController, ActionListener { // Impl
         if (inputController.isPlayerShooting(playerIndex)) {
 
             Bullet bullet = player.shoot();
-            bullet.setImage(sprites.bullet);
-            bullet.setSpeed(7f);
-            gameModel.addBullet(bullet);
-            // Reset trạng thái bắn ngay lập tức nếu muốn (hoặc giữ lại để kiểm tra nút giữ)
-            if (playerIndex == 0) {
-                inputController.setShootP1(false);
-            } else {
-                inputController.setShootP2(false);
-            }
+            if (bullet != null) {
+                bullet.setImage(sprites.bullet);
+                bullet.setSpeed(10f);
+                gameModel.addBullet(bullet);
+                // Reset trạng thái bắn ngay lập tức nếu muốn (hoặc giữ lại để kiểm tra nút giữ)
+                if (playerIndex == 0) {
+                    inputController.setShootP1(false);
+                } else {
+                    inputController.setShootP2(false);
+                }
 
-            System.out.println("Player " + (playerIndex + 1) + " shot a bullet");
+                System.out.println("Player " + (playerIndex + 1) + " shot a bullet");
+            }
         }
     }
     //Check Collision
@@ -221,13 +223,22 @@ public class GameController implements IGameController, ActionListener { // Impl
         else if (collisionController.checkCollision(playerX, gameModel.getPlayer(1))){
             playerX.undoMove();
         }
+        //kiem tra va tram dan
+        List<Bullet> bullets = gameModel.getBullets();
+        for (Bullet bullet : bullets) {
+            if (collisionController.checkCollision(bullet,playerX)) {
+                bullet.setDead(true);
+                break;
+            }
+        }
+
     }
     // Helper method to handle movement logic based on input
     private void handlePlayerMovement(IMovable playerX, int playerIndex) {
         Player player = (Player) playerX;
         float speed = player.getSpeed() > 0 ? player.getSpeed() : 3.0f; // Default speed if not set
         player.storePreviousPosition();
-        if (playerIndex == 0) { // Player 1 (WASD)
+        if (playerIndex == 0) {
             if (inputController.isUpP1Pressed()) {
                 player.move(Direction.UP);
                 player.setImage(sprites.player1Up);

@@ -85,14 +85,23 @@ public class GameModel implements IGameModel {
     }
     @Override
     public void update() {
+        List<Bullet> bulletsToRemove = new ArrayList<>();
         // Tạo danh sách các đạn cần xóa sau khi duyệt qua
         for (Bullet bullet : bullets) {
+            bullet.update();
+            if (bullet.isDead()){
+                bulletsToRemove.add(bullet);
+                continue;
+            }
             if (bullet.getIsPlayer() == 0){
                 bullet.move();
             }
             if (bullet.getIsPlayer() == 1){
                 bullet.move();
             }
+        }
+        for (Bullet bullet : bulletsToRemove) {
+            bullets.remove(bullet);
         }
     }
 
