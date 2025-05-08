@@ -100,11 +100,11 @@ public class Player extends MovableEntityBase {
         switch (direction) {
             case UP:
                 y -= speed;
-                this.direction = Direction.DOWN;
+                this.direction = Direction.UP;
                 break;
             case DOWN:
                 y += speed;
-                this.direction = Direction.UP;
+                this.direction = Direction.DOWN;
                 break;
             case LEFT:
                 x -= speed;
@@ -189,12 +189,12 @@ public class Player extends MovableEntityBase {
             switch (this.direction) {
                 case UP: 
                     bulletX = (int) this.x + GameConstants.TILE_SIZE / 2 - 3;
-                    bulletY = (int) this.y + GameConstants.TILE_SIZE;
+                    bulletY = (int) this.y ;
                     System.out.println("dan di len");
                     break;  
                 case DOWN: 
                     bulletX = (int) this.x + GameConstants.TILE_SIZE / 2 - 3;
-                    bulletY = (int) this.y - GameConstants.TILE_SIZE;
+                    bulletY = (int) this.y + GameConstants.TILE_SIZE;
                     System.out.println("dan di xuong");
                     break;
                 case RIGHT: 
