@@ -13,6 +13,7 @@ import java.awt.*;
 public class Bullet extends MovableEntityBase {
     private int isPlayer;
     private Direction direction;
+    private int damage;
     private boolean dead;
     public Bullet(int x, int y, int isPlayer, Direction direction) {
         this.isPlayer = isPlayer;
@@ -21,6 +22,7 @@ public class Bullet extends MovableEntityBase {
         this.y = y;
         this.x = x;
         this.direction = direction;
+        this.damage = 20;
         //initHitBox();
         this.hitBox = new Rectangle(x, y, 5, 5);
     }
@@ -39,6 +41,14 @@ public class Bullet extends MovableEntityBase {
                 x += speed;
                 break;
         }
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 
     @Override

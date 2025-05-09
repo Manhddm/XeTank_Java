@@ -4,27 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
-
 import model.GameModel;
 import model.entities.Bullet;
-import model.entities.Grass;
 import model.entities.Player;
-import model.entities.Wall; // Import Wall
 import model.interfaces.IEntity;
 import core.GameConstants;
 import model.interfaces.IGameModel;
 import model.map.GameMap;
 import view.interfaces.IGameView;
 import view.renderers.BulletRenderer;
-import view.renderers.GrassRenderer;
 import view.renderers.PlayerRenderer;
-import view.renderers.WallRenderer; // Import WallRenderer (nếu có)
-
 // Bỏ implements ActionListener
 public class GamePanel extends JPanel implements IGameView {
-
     private GameModel gameModel;
-
     // Các renderer cụ thể (có thể quản lý bằng cách khác, ví dụ Map)
     private final GameMap gameMap = new GameMap();
     private PlayerRenderer playerRenderer;
@@ -43,11 +35,6 @@ public class GamePanel extends JPanel implements IGameView {
         setBackground(Color.DARK_GRAY); // Màu nền tối cho dễ nhìn tank
         setDoubleBuffered(true); // Giúp vẽ mượt hơn
         setFocusable(true); // **Rất quan trọng** để nhận sự kiện bàn phím
-
-        // Xóa bỏ khởi tạo và bắt đầu timer
-        // int delay  = 1000/60;
-        // gameTimer = new Timer(delay,this);
-        System.out.println("GamePanel created and configured.");
     }
 
     @Override
@@ -55,10 +42,11 @@ public class GamePanel extends JPanel implements IGameView {
         super.paintComponent(g); // Gọi phương thức vẽ của lớp cha (quan trọng)
         Graphics2D g2d = (Graphics2D) g.create(); // Tạo bản sao context để tránh ảnh hưởng lẫn nhau
         gameMap.draw(g2d);
+        Font font = new Font("Arial", Font.BOLD, 20);
         if (gameModel == null) {
             // Vẽ thông báo lỗi nếu model chưa được set
             g2d.setColor(Color.RED);
-            g2d.setFont(new Font("Arial", Font.BOLD, 20));
+            g2d.setFont(font);
             g2d.drawString("Lỗi: GameModel chưa được thiết lập!", 50, 50);
             g2d.dispose();
             return;
@@ -98,14 +86,13 @@ public class GamePanel extends JPanel implements IGameView {
                 }
                }
         } else {
-            // Vẽ thông báo nếu danh sách entity là null (ít xảy ra nếu model khởi tạo đúng)
             g2d.setColor(Color.YELLOW);
             g2d.drawString("Danh sách thực thể là null trong GameModel!", 100, 120);
         }
-
-        // TODO: Vẽ các thành phần UI khác (điểm số, máu...) có thể gọi UIRenderer ở đây
-
-        // Giải phóng context bản sao
+        g2d.setColor(Color.BLACK);
+        g2d.setFont(font);
+        g2d.drawString("Player1: " + gameModel.getPlayer(0).getLives() + "/" + gameModel.getPlayer(0).getMaxLives(), 10, 20);
+        g2d.drawString("Player2: " + gameModel.getPlayer(1).getLives() + "/" + gameModel.getPlayer(1).getMaxLives(), GameConstants.GAME_SCREEN_WIDTH - 32*5, 20);
         g2d.dispose();
     }
 

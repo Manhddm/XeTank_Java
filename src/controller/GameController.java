@@ -197,37 +197,38 @@ public class GameController implements IGameController, ActionListener { // Impl
         }
     }
     //Check Collision
-    void handlePlayerCollision(IEntity player) {
-        IMovable playerX = (IMovable) player;
+    void handlePlayerCollision(Player player) {
+        
         //Kiem tra va cham voi tuong khi di chuyen
         //List<Wall> walls = gameModel.getEntitiesOfType(Wall.class);
-        if (collisionController.checkCollisionWithStatic(playerX,this.walls)){
-            playerX.undoMove();
+        if (collisionController.checkCollisionWithStatic(player,this.walls)){
+            player.undoMove();
         }
         //Kiem Tra va cham voi nuoc
         // List<Water> waters = gameModel.getEntitiesOfType(Water.class);
-        if (collisionController.checkCollisionWithStatic(playerX,this.waters)){
-            playerX.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED - GameConstants.DEAFAULT_PLAYER_SPEED*0.5f);
+        if (collisionController.checkCollisionWithStatic(player,this.waters)){
+            player.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED - GameConstants.DEAFAULT_PLAYER_SPEED*0.5f);
         }else {
-            playerX.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED);
+            player.setSpeed(GameConstants.DEAFAULT_PLAYER_SPEED);
         }
         //kiem tra va cham voi co
-        if (collisionController.checkCollisionWithStatic(playerX,this.grasses)){
-            playerX.setHidden(false);
+        if (collisionController.checkCollisionWithStatic(player,this.grasses)){
+            player.setHidden(false);
         } else {
-            playerX.setHidden(true);
+            player.setHidden(true);
         }
-        if (collisionController.checkCollision(playerX, gameModel.getPlayer(0))){
-            playerX.undoMove();
+        if (collisionController.checkCollision(player, gameModel.getPlayer(0))){
+            player.undoMove();
         }
-        else if (collisionController.checkCollision(playerX, gameModel.getPlayer(1))){
-            playerX.undoMove();
+        else if (collisionController.checkCollision(player, gameModel.getPlayer(1))){
+            player.undoMove();
         }
         //kiem tra va tram dan
         List<Bullet> bullets = gameModel.getBullets();
         for (Bullet bullet : bullets) {
-            if (collisionController.checkCollision(bullet,playerX)) {
+            if (collisionController.checkCollision(bullet,player)) {
                 bullet.setDead(true);
+                player.setLives(player.getLives() - bullet.getDamage());
                 break;
             }
         }

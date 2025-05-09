@@ -6,7 +6,6 @@ import model.base.MovableEntityBase;
 
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Player entity representing a tank in the game
@@ -35,16 +34,8 @@ public class Player extends MovableEntityBase {
     public Direction getDirection() {
         return direction;
     }
-
-    public int getFace() {
-        if (faceRight) {
-            return 3;
-        } else if (faceLeft) {
-            return 1;
-        } else if (faceUp) {
-            return 2;
-        }
-        return 4;
+    public int getMaxLives(){
+        return maxLives;
     }
 
     public void setFace(int face) {
@@ -189,22 +180,18 @@ public class Player extends MovableEntityBase {
                 case UP: 
                     bulletX = (int) this.x + GameConstants.TILE_SIZE / 2 - 3;
                     bulletY = (int) this.y ;
-                    System.out.println("dan di len");
                     break;  
                 case DOWN: 
                     bulletX = (int) this.x + GameConstants.TILE_SIZE / 2 - 3;
                     bulletY = (int) this.y + GameConstants.TILE_SIZE;
-                    System.out.println("dan di xuong");
                     break;
                 case RIGHT: 
                     bulletX = (int) this.x + GameConstants.TILE_SIZE;
                     bulletY = (int) this.y + GameConstants.TILE_SIZE / 2 - 3;
-                    System.out.println("dan di phai");
                     break;
                 case LEFT: 
                     bulletX = (int) this.x - 5;
                     bulletY = (int) this.y + GameConstants.TILE_SIZE / 2 - 3;
-                    System.out.println("dan di trai");
                     break;
             }
             return new Bullet(bulletX, bulletY, name.equals("Blue") ? 0 : 1,this.direction);

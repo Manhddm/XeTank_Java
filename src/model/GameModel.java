@@ -6,14 +6,8 @@ import model.base.Direction;
 import model.entities.*;
 import model.interfaces.IEntity;
 import model.interfaces.IGameModel;
-import model.interfaces.IMovable;
 import model.map.GameMap;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream; 
-
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
