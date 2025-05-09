@@ -23,7 +23,7 @@ public class GameModel implements IGameModel {
     List<IEntity> staticEntities = new ArrayList<>(); // Khởi tạo danh sách ngay lập tức
     GameMap gameMap =  new GameMap();
     List<Bullet> bullets = new ArrayList<>();
-
+    List<IEntity> allEntities = new ArrayList<>();
     @Override
     public void initialize() {
         System.out.println("Initializing GameModel...");
@@ -71,6 +71,9 @@ public class GameModel implements IGameModel {
             addEntity(grass);
         }
         System.out.println("Grasses added to entities list.");
+        staticEntities.addAll(walls);
+        staticEntities.addAll(waters);
+        staticEntities.addAll(grasses);
     }
     
 
@@ -112,7 +115,7 @@ public class GameModel implements IGameModel {
     // Sử dụng kiểu generic để đảm bảo an toàn kiểu
     public  <T extends IEntity> void addEntity(T entity) {
         if (entity != null) {
-            staticEntities.add(entity);
+            allEntities.add(entity);
         }
     }
 
@@ -120,6 +123,9 @@ public class GameModel implements IGameModel {
         if (entity != null) {
             staticEntities.remove(entity);
         }
+    }
+    public List<? extends  IEntity> getAllEntities(){
+        return allEntities;
     }
     @Override
     public List<? extends IEntity> getStaticEntities() {

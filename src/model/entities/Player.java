@@ -179,18 +179,18 @@ public class Player extends MovableEntityBase {
             switch (this.direction) {
                 case UP: 
                     bulletX = (int) this.x + GameConstants.TILE_SIZE / 2 - 3;
-                    bulletY = (int) this.y ;
+                    bulletY = (int) this.y - 10;
                     break;  
                 case DOWN: 
                     bulletX = (int) this.x + GameConstants.TILE_SIZE / 2 - 3;
-                    bulletY = (int) this.y + GameConstants.TILE_SIZE;
+                    bulletY = (int) this.y + GameConstants.TILE_SIZE + 5;
                     break;
                 case RIGHT: 
-                    bulletX = (int) this.x + GameConstants.TILE_SIZE;
+                    bulletX = (int) this.x + GameConstants.TILE_SIZE + 5;
                     bulletY = (int) this.y + GameConstants.TILE_SIZE / 2 - 3;
                     break;
                 case LEFT: 
-                    bulletX = (int) this.x - 5;
+                    bulletX = (int) this.x - 10;
                     bulletY = (int) this.y + GameConstants.TILE_SIZE / 2 - 3;
                     break;
             }

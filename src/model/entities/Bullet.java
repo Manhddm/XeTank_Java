@@ -21,6 +21,7 @@ public class Bullet extends MovableEntityBase {
         //ViTriXuatHien(x,y,huong);
         this.y = y;
         this.x = x;
+        this.speed = 15f;
         this.direction = direction;
         this.damage = 20;
         //initHitBox();

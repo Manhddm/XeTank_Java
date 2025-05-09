@@ -1,24 +1,17 @@
 package controller;
 
 import controller.interfaces.IGameController;
-import controller.interfaces.IInputController; // Import IInputController
 import core.GameConstants;
 import core.Sprites;
 import model.GameModel;
 import model.base.Direction;
 import model.entities.*;
-import model.interfaces.IGameModel;
-import model.interfaces.IEntity; // Import IEntity
-import model.interfaces.IMovable; // Import IMovable
-import view.interfaces.IGameView;
+import model.interfaces.IEntity; 
+import model.interfaces.IMovable; 
 import view.rendering.GamePanel;
-
-import javax.swing.Timer; // Import Timer for game loop
-import java.awt.*;
+import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,6 +27,15 @@ public class GameController implements IGameController, ActionListener { // Impl
     private List<Wall> walls;
     private List<Water> waters ;
     private List<Grass> grasses;
+
+    private Thread gameLoopThread;
+    private Thread inputThread;
+    private Thread collisionThread;
+    private Thread renderThread;
+    private Thread updateThread;
+    private Thread checkCollisionThread;
+    private Thread checkGameOverThread;
+    
 
     // Constructor (optional, could do setup in initialize)
     public GameController() {
@@ -72,6 +74,7 @@ public class GameController implements IGameController, ActionListener { // Impl
             gameModel.initialize(); // Initialize/reset the model if needed
             running = true;
             gameTimer.start();
+
             System.out.println("Game loop started by GameController.");
         } else {
             System.err.println("Cannot start game: Model, InputController not set or already running.");
@@ -128,32 +131,21 @@ public class GameController implements IGameController, ActionListener { // Impl
 
         // --- Player 1 Input ---
         IEntity player1Entity = gameModel.getPlayer(0); // Assuming index 0 for player 1
-        if (player1Entity instanceof IMovable) { // Check if the entity is movable
+        if (player1Entity != null) { // Check if the entity is movable
             Player player1 = (Player) player1Entity;
             handlePlayerMovement(player1, 0); // Pass player index 0
             handlePlayerCollision(player1);
-            // Handle shooting/actions for player 1
-            if (inputController.isPlayerShooting(0)) {
-                handelPlayerShooting(player1);
-            }
-            if (inputController.isPlayerAction(0)) {
-                // TODO: Implement player1 action
-                System.out.println("Player 1 trying to perform action (implementation needed)");
-            }
+            handelPlayerShooting(player1);
         }
-
-
         // --- Player 2 Input ---
         IEntity player2Entity = gameModel.getPlayer(1); // Assuming index 1 for player 2
         if (player2Entity != null) { // Check if the entity is movable
             Player player2 = (Player) player2Entity;
             handlePlayerMovement(player2, 1); // Pass player index 1
             handlePlayerCollision(player2);
-            // Handle shooting/actions for player 2
-            if (inputController.isPlayerShooting(1)) {
-                handelPlayerShooting(player2);
-            }
+            handelPlayerShooting(player2);
         }
+        handleBulletCollision();
 
         // 2. Update Game State (including entities)
         gameModel.update();
@@ -183,7 +175,6 @@ public class GameController implements IGameController, ActionListener { // Impl
             Bullet bullet = player.shoot();
             if (bullet != null) {
                 bullet.setImage(sprites.bullet);
-                bullet.setSpeed(10f);
                 gameModel.addBullet(bullet);
                 // Reset trạng thái bắn ngay lập tức nếu muốn (hoặc giữ lại để kiểm tra nút giữ)
                 if (playerIndex == 0) {
@@ -193,6 +184,14 @@ public class GameController implements IGameController, ActionListener { // Impl
                 }
 
                 System.out.println("Player " + (playerIndex + 1) + " shot a bullet");
+            }
+        }
+    }
+    void handleBulletCollision() {
+        List<Bullet> bullets = gameModel.getBullets();
+        for (Bullet bullet : bullets) {
+            if (collisionController.checkCollisionWithStatic(bullet,this.walls)){
+                bullet.setDead(true);
             }
         }
     }
@@ -237,56 +236,25 @@ public class GameController implements IGameController, ActionListener { // Impl
     // Helper method to handle movement logic based on input
     private void handlePlayerMovement(IMovable playerX, int playerIndex) {
         Player player = (Player) playerX;
-        float speed = player.getSpeed() > 0 ? player.getSpeed() : 3.0f; // Default speed if not set
         player.storePreviousPosition();
-        if (playerIndex == 0) {
-            if (inputController.isUpP1Pressed()) {
-                player.move(Direction.UP);
-                player.setImage(sprites.player1Up);
-                player.setFace(2);
-            }
-            else if (inputController.isDownP1Pressed()) {
-                player.move(Direction.DOWN);
-                player.setImage(sprites.player1Down);
-                player.setFace(4);
-            }
-            else  if (inputController.isLeftP1Pressed()) {
-                player.move(Direction.LEFT);
-                player.setImage(sprites.player1Left);
-                player.setFace(1);
-            }
-            else if (inputController.isRightP1Pressed()) {
-                player.move(Direction.RIGHT);
-                player.setImage(sprites.player1Right);
-                player.setFace(3);
-            }
-        } else if (playerIndex == 1) { // Player 2 (Arrow Keys)
-            if (inputController.isUpP2Pressed()) {
-                player.move(Direction.UP);
-                player.setImage(sprites.player2Up);
-                player.setFace(2);
-            }
-            else if (inputController.isDownP2Pressed()) {
-                player.move(Direction.DOWN);
-                player.setImage(sprites.player2Down);
-                player.setFace(4);
-            }
-            else if (inputController.isLeftP2Pressed()) {
-                player.move(Direction.LEFT);
-                player.setImage(sprites.player2Left);
-                player.setFace(1);
-            }
-            else if (inputController.isRightP2Pressed()) {
-                player.move(Direction.RIGHT);
-                player.setImage(sprites.player2Right);
-                player.setFace(3);
-            }
+        if (inputController.isUpPressed(playerIndex)) {
+            player.move(Direction.UP);
+            player.setImage(playerIndex==0?sprites.player1Up:sprites.player2Up);
         }
-
+        else if (inputController.isDownPressed(playerIndex)) {
+            player.move(Direction.DOWN);
+            player.setImage(playerIndex==0?sprites.player1Down:sprites.player2Down);
+        }
+        else if (inputController.isLeftPressed(playerIndex)) {
+            player.move(Direction.LEFT);
+            player.setImage(playerIndex==0?sprites.player1Left:sprites.player2Left);
+        }
+        else if (inputController.isRightPressed(playerIndex)) {
+            player.move(Direction.RIGHT);
+            player.setImage(playerIndex==0?sprites.player1Right:sprites.player2Right);
+        }
         player.update();
     }
-
-
     @Override
     public boolean isRunning() {
         return running;

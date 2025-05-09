@@ -113,8 +113,6 @@ public class KeyboardController implements IInputController, KeyListener {
             case KeyEvent.VK_A :leftP1 = false; break;
             case KeyEvent.VK_D :rightP1 = false; break;
             case KeyEvent.VK_J: shootP1 = false;
-                System.out.println("het ban roi"); break;
-
             case KeyEvent.VK_UP :upP2 = false; break;
             case KeyEvent.VK_DOWN :downP2 = false; break;
             case KeyEvent.VK_LEFT :leftP2 = false; break;
@@ -130,16 +128,10 @@ public class KeyboardController implements IInputController, KeyListener {
     public void setShootP1(boolean shootP1) {
         this.shootP1 = shootP1;
     }
+    public boolean isUpPressed(int playerIndex) { return playerIndex == 0? upP1 : upP2; }
+    public boolean isDownPressed(int playerIndex) { return playerIndex == 0? downP1 : downP2; }
+    public boolean isLeftPressed(int playerIndex) { return playerIndex == 0? leftP1 : leftP2; }
+    public boolean isRightPressed(int playerIndex) { return playerIndex == 0? rightP1 : rightP2; }
+    public boolean isShootPressed(int playerIndex) { return playerIndex == 0? shootP1 : shootP2; }
 
-    public boolean isUpP1Pressed() { return upP1; }
-    public boolean isDownP1Pressed() { return downP1; }
-    public boolean isLeftP1Pressed() { return leftP1; }
-    public boolean isRightP1Pressed() { return rightP1; }
-    public boolean isShootP1Pressed() { return shootP1; } // Assuming you add shootP1 flag
-
-    public boolean isUpP2Pressed() { return upP2; }
-    public boolean isDownP2Pressed() { return downP2; }
-    public boolean isLeftP2Pressed() { return leftP2; }
-    public boolean isRightP2Pressed() { return rightP2; }
-    public boolean isShootP2Pressed() { return shootP2; }
 }
