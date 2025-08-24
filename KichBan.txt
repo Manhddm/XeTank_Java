@@ -4,7 +4,7 @@ Tổng Quan Game
 
 "Xe Tăng Đại Chiến" là một trò chơi đối kháng giữa hai người chơi, mỗi người điều khiển một chiếc xe tăng. Mục tiêu là tiêu diệt xe tăng của đối phương bằng cách bắn đạn và tận dụng các yếu tố môi trường trên bản đồ.
 
-Các Đối Tượng Trong Game
+Các Đối Tượng Trong Game kkkk
 
 Tất cả các đối tượng trong game sẽ có kích thước mặc định là 32×32 pixel.
 
