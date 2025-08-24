@@ -24,7 +24,7 @@ Hình ảnh: Hình ảnh đại diện cho viên đạn.
 Là vật rắn?: Có (có thể va chạm với các đối tượng khác).
 Tốc độ di chuyển: Xác định tốc độ đạn bay.
 
-Địa Hình:
+Địa Hình: dep trai
 
 Tường (Wall):
 Vị trí: Tọa độ (x, y) trên bản đồ.
