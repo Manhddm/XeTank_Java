@@ -17,7 +17,7 @@ Là vật rắn?: Có (không thể đi xuyên qua các vật rắn khác).
 Tốc độ di chuyển: Xác định tốc độ xe tăng có thể di chuyển.
 Máu: Lượng máu tối đa là 100. Khi máu về 0, xe tăng bị phá hủy.
 
-Đạn (Bullet):
+Đạn (Bullet):dsdsds
 Đặc điểm chung của Đạn bao gồm:
 Vị trí: Tọa độ (x, y) trên bản đồ.
 Hình ảnh: Hình ảnh đại diện cho viên đạn.
