@@ -112,7 +112,8 @@ public class KeyboardController implements IInputController, KeyListener {
             case KeyEvent.VK_S :downP1 = false; break;
             case KeyEvent.VK_A :leftP1 = false; break;
             case KeyEvent.VK_D :rightP1 = false; break;
-            case KeyEvent.VK_J: shootP1 = false;
+            case KeyEvent.VK_J: shootP1 = false; break;
+            
             case KeyEvent.VK_UP :upP2 = false; break;
             case KeyEvent.VK_DOWN :downP2 = false; break;
             case KeyEvent.VK_LEFT :leftP2 = false; break;

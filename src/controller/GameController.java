@@ -23,19 +23,10 @@ public class GameController implements IGameController, ActionListener { // Impl
     private Sprites sprites = new Sprites();
     private Timer gameTimer; // Timer for the game loop
     private boolean running = false;
-    private final int GAME_TICK_DELAY = 1000 / 120; // Approx 60 FPS
+    private final int GAME_TICK_DELAY = 1000 / 60; // Approx 60 FPS
     private List<Wall> walls;
     private List<Water> waters ;
     private List<Grass> grasses;
-
-    private Thread gameLoopThread;
-    private Thread inputThread;
-    private Thread collisionThread;
-    private Thread renderThread;
-    private Thread updateThread;
-    private Thread checkCollisionThread;
-    private Thread checkGameOverThread;
-    
 
     // Constructor (optional, could do setup in initialize)
     public GameController() {
@@ -161,11 +152,6 @@ public class GameController implements IGameController, ActionListener { // Impl
             // }
             System.out.println("Game Over! Winner: " + gameModel.getWinner()); // Placeholder
         }
-
-        // 5. Render (View should handle this, triggered by repaint)
-        // The GamePanel's repaint() is usually called separately, often triggered by the Timer
-        // If GameView was fully implemented, you might call:
-        // if (gameView != null) gameView.render();
     }
     void handelPlayerShooting(Player player) {
         int playerIndex =   player == gameModel.getPlayer(0)?0:1;

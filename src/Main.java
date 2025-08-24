@@ -60,29 +60,18 @@ public class Main {
                 GameController gameController = new GameController();
                 gameController.setGamePanel(gamePanel);
 
-                // --- 4. Kết nối các thành phần ---
-                System.out.println("Kết nối các thành phần MVC...");
                 // Kết nối Controller với Model và Input/Collision Controllers
                 gameController.setModel(gameModel);
                 ((GameController) gameController).setInputController(keyboardController); // Ép kiểu nếu cần gọi phương thức cụ thể
-                //((GameController) gameController).setCollisionController(collisionController); // Truyền collision controller vào
-                //gameController.setView(gamePanel); // Kết nối View nếu GameController cần tương tác trực tiếp với View (hiện tại chưa cần)
 
                 // Thêm KeyListener vào GamePanel (Panel cần focusable=true)
                 gamePanel.addKeyListener((KeyListener) keyboardController); // Ép kiểu KeyboardController thành KeyListener
-                System.out.println("KeyboardController đã được thêm làm KeyListener cho GamePanel.");
-
-                // Yêu cầu focus cho GamePanel để nó nhận sự kiện phím ngay lập tức
-                // Quan trọng: Phải gọi sau khi cửa sổ được hiển thị hoặc pack()
-                // gamePanel.requestFocusInWindow(); // Sẽ gọi sau khi cửa sổ hiển thị
 
                 // Khởi tạo GameController (ví dụ: tạo Timer)
                 gameController.initialize();
-                System.out.println("GameController đã khởi tạo (bao gồm cả Timer).");
 
 
                 // --- 5. Hiển thị cửa sổ và Bắt đầu Game ---
-                System.out.println("Hiển thị cửa sổ và bắt đầu Game Loop...");
                 gameWindow.setVisible(true); // Hiển thị cửa sổ
 
                 // Yêu cầu focus sau khi cửa sổ hiển thị
